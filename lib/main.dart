@@ -9,13 +9,22 @@ void main() => runApp(MaterialApp(
 
 class Platy extends StatelessWidget {
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: 'Platy',
-      theme: new ThemeData(
-        primarySwatch: Colors.red,
+    return GestureDetector(
+      child: MaterialApp(
+        title: 'Platy',
+        theme: new ThemeData(
+            primarySwatch: Colors.indigo,
+            textSelectionHandleColor: Color(0xFF7644AD)
+        ),
+        initialRoute: '/',
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      }
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:platy/screens/home/home_screen.dart';
-import 'package:platy/screens/welcome/welcome_screen.dart';
-import 'package:platy/screens/login/login_screen.dart';
+import 'package:platy/Screens/forgot_password/forgot_password_screen.dart';
+import 'package:platy/Screens/login/login_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -9,18 +8,19 @@ class RouteGenerator {
 
     switch (settings.name){
       case '/':
-        return MaterialPageRoute(builder: (_) => Welcome());
-        break;
-
-      case 'home':
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => Login());
         break;
 
       case 'login':
         return MaterialPageRoute(builder: (_) => Login());
+        break;
+
+      case 'forgot':
+        return MaterialPageRoute(builder: (_) => ForgotPassword());
+        break;
 
       default:
-        return MaterialPageRoute(builder: (_) => Welcome());
+        return MaterialPageRoute(builder: (_) => Login());
         break;
     }
   }
