@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:platy/Utils/style_constants.dart' as Theme;
+import 'package:platy/Utils/utilities_constants.dart';
 import 'package:platy/Widgets/CustomWidgets.dart';
-import 'package:platy/Utils/bubble_indication_painter.dart';
+import 'package:platy/Utils/Utils.dart';
+import 'dart:convert';
+
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -14,6 +19,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  //VARIABLES
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
@@ -55,7 +61,6 @@ class _LoginState extends State<Login> {
           overscroll.disallowGlow();
         },
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height >= 775.0
@@ -63,7 +68,7 @@ class _LoginState extends State<Login> {
                     : 775.0,
                 decoration: new BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/backgrounds/initial-bg-01.png'),
+                    image: AssetImage('assets/images/backgrounds/background.png'),
                     alignment: Alignment.bottomCenter
                   ),
                   color: Color(0xFF223254)
@@ -82,7 +87,7 @@ class _LoginState extends State<Login> {
                             borderRadius: BorderRadius.circular(100.0),
                           ),
                         ),
-                      )
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
@@ -130,11 +135,14 @@ class _LoginState extends State<Login> {
     );
   }
 
+  //STATE MANAGEMENT
   @override
   void dispose() {
-    myFocusNodePassword.dispose();
-    myFocusNodeEmail.dispose();
+    myFocusNodeEmailLogin.dispose();
+    myFocusNodePasswordLogin.dispose();
     myFocusNodeName.dispose();
+    myFocusNodeEmail.dispose();
+    myFocusNodePassword.dispose();
     _pageController?.dispose();
     super.dispose();
   }
@@ -151,12 +159,13 @@ class _LoginState extends State<Login> {
     _pageController = PageController();
   }
 
+  //BUILD WIDGETS
   Widget _buildMenuBar(BuildContext context) {
     return Container(
       width: 300.0,
       height: 60.0,
       decoration: BoxDecoration(
-        color: Color(0x552B2B2B),
+        color: Color(0x802B2B2B),
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
       ),
       child: CustomPaint(
@@ -173,9 +182,9 @@ class _LoginState extends State<Login> {
                   "Login",
                   style: TextStyle(
                       color: leftMenuTextColor,
-                      fontSize: Theme.header2FontSize,
+                      fontSize: Theme.menuFontSize,
                       fontFamily: Theme.primaryFontFamily,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w500
                   ),
                 ),
               ),
@@ -189,9 +198,9 @@ class _LoginState extends State<Login> {
                   "Cadastro",
                   style: TextStyle(
                       color: rightMenuTextColor,
-                      fontSize: Theme.header2FontSize,
+                      fontSize: Theme.menuFontSize,
                       fontFamily: Theme.primaryFontFamily,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w500
                   ),
                 ),
               ),
@@ -219,19 +228,20 @@ class _LoginState extends State<Login> {
                 ),
                 child: Container(
                   width: 300.0,
-                  height: 223.0,
+                  height: 220.0 + (!_loginEmailIsValid ? 15.0 : 0) + (!_loginPasswordIsValid ? 15.0 : 0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 30.0, bottom: 8.0, left: 25.0, right: 25.0),
+                            top: 30.0, bottom: 5.0, left: 25.0, right: 25.0),
                         child: Container(
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
                           child: CustomInput(
                               inputType: TextInputType.emailAddress,
-                              hintText: 'Email',
+                              hintText: 'E-mail',
                               prefixIcon: Icon(FontAwesomeIcons.envelope, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               controller: loginEmailController,
                               focusNode: myFocusNodeEmailLogin,
@@ -239,6 +249,20 @@ class _LoginState extends State<Login> {
                               context: context
                           ), //CustomInput
                         ),
+                      ),
+                      Visibility(
+                        visible: !_loginEmailIsValid,
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, left: 52.0),
+                            child: Text(
+                              (loginEmailController.text.isEmpty ? 'Preencha seu e-mail' : 'Verifique seu e-mail'),
+                            style: TextStyle(
+                                fontFamily: Theme.primaryFontFamily,
+                                fontSize: Theme.warningFontSize,
+                                color: Theme.errorFeedbackColor
+                            ),
+                          ),
+                        )
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -266,12 +290,27 @@ class _LoginState extends State<Login> {
                           ), //CustomInput
                         ),
                       ),
+                      Visibility(
+                        visible: !_loginPasswordIsValid,
+                        child:
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, left: 52.0),
+                          child: Text(
+                            'Preencha sua senha',
+                            style: TextStyle(
+                                fontFamily: Theme.primaryFontFamily,
+                                fontSize: Theme.warningFontSize,
+                                color: Theme.errorFeedbackColor
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 197.0),
+                margin: EdgeInsets.only(top: 192.0 + (!_loginEmailIsValid ? 15.0 : 0) + (!_loginPasswordIsValid ? 15.0 : 0)),
                 width: 240,
                 height: 60,
                 decoration: new BoxDecoration(
@@ -294,7 +333,10 @@ class _LoginState extends State<Login> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(50.0),
-                        onTap: () => {
+                        onTap: (){
+                          if(validateLogin()){
+                            signIn(loginEmailController.text, loginPasswordController.text);
+                          }
                         },
                         child: Center(
                           child: CustomButton('Entrar')
@@ -346,12 +388,12 @@ class _LoginState extends State<Login> {
                 ),
                 child: Container(
                   width: 300.0,
-                  height: 300.0,
+                  height: 300.0 + (!_signUpNameIsValid ? 15.0 : 0) + (!_signUpEmailIsValid ? 15.0 : 0) + (!_signUpPasswordIsValid ? 15.0 : 0),
                   child: Column(
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 30.0, bottom: 8.0, left: 25.0, right: 25.0),
+                            top: 30.0, bottom: 5.0, left: 25.0, right: 25.0),
                         child: Container(
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
@@ -363,12 +405,27 @@ class _LoginState extends State<Login> {
                               focusNode: myFocusNodeName,
                               nextFocus: myFocusNodeEmail,
                               context: context
-                          ) // CustomInput
+                          ), // CustomInput
+                        ),
+                      ),
+                      Visibility(
+                        visible: !_signUpNameIsValid,
+                        child:
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, right: 65.0),
+                          child: Text(
+                            'Preencha o seu nome',
+                            style: TextStyle(
+                                fontFamily: Theme.primaryFontFamily,
+                                fontSize: Theme.warningFontSize,
+                                color: Theme.errorFeedbackColor
+                            ),
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 8.0, bottom: 8.0, left: 25.0, right: 25.0),
+                            top: 8.0, bottom: 5.0, left: 25.0, right: 25.0),
                         child: Container(
                             alignment: Alignment.centerLeft,
                             decoration: Theme.formFieldsStyle,
@@ -384,9 +441,24 @@ class _LoginState extends State<Login> {
                             ) // CustomInput
                         ),
                       ),
+                      Visibility(
+                        visible: !_signUpEmailIsValid,
+                        child:
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, right: 65.0),
+                          child: Text(
+                            'Preencha o seu email',
+                            style: TextStyle(
+                                fontFamily: Theme.primaryFontFamily,
+                                fontSize: Theme.warningFontSize,
+                                color: Theme.errorFeedbackColor
+                            ),
+                          ),
+                        ),
+                      ),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: 8.0, bottom: 20.0, left: 25.0, right: 25.0),
+                            top: 8.0, bottom: 5.0, left: 25.0, right: 25.0),
                         child: Container(
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
@@ -409,12 +481,27 @@ class _LoginState extends State<Login> {
                           ) //CustomInput
                         ),
                       ),
+                      Visibility(
+                        visible: !_signUpPasswordIsValid,
+                        child:
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5.0, right: 65.0),
+                          child: Text(
+                            'Preencha a sua senha',
+                            style: TextStyle(
+                                fontFamily: Theme.primaryFontFamily,
+                                fontSize: Theme.warningFontSize,
+                                color: Theme.errorFeedbackColor
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 273.0),
+                margin: EdgeInsets.only(top: 273.0 + (!_signUpNameIsValid ? 15.0 : 0) + (!_signUpEmailIsValid ? 15.0 : 0) + (!_signUpPasswordIsValid ? 15.0 : 0)),
                 width: 240,
                 height: 60,
                 decoration: new BoxDecoration(
@@ -438,7 +525,7 @@ class _LoginState extends State<Login> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(50.0),
                         onTap: () => {
-                          showInSnackBar("SignUp button pressed")
+                          validateSignup()
                         },
                         child: Center(
                             child: CustomButton('Cadastrar')
@@ -455,6 +542,7 @@ class _LoginState extends State<Login> {
     );
   }
 
+  // FUNCTIONS
   void showInSnackBar(String value) {
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
@@ -473,12 +561,12 @@ class _LoginState extends State<Login> {
 
   void _onSignInButtonPress() {
     _pageController.animateToPage(0,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+        duration: Duration(milliseconds: 800), curve: Curves.decelerate);
   }
 
   void _onSignUpButtonPress() {
     _pageController?.animateToPage(1,
-        duration: Duration(milliseconds: 500), curve: Curves.decelerate);
+        duration: Duration(milliseconds: 800), curve: Curves.decelerate);
   }
 
   void _toggleLogin() {
@@ -493,15 +581,110 @@ class _LoginState extends State<Login> {
     });
   }
 
-  void validateLogin(){
-    RegExp emailReg = new RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
-        caseSensitive: false,
-        multiLine: false );
+  bool validateLogin(){
+    var email = true;
+    var password = true;
 
-    if(loginEmailController.text.isEmpty || !emailReg.hasMatch(loginEmailController.text)){
-      _loginEmailIsValid = false;
+    if(loginEmailController.text.isEmpty || !EmailRegex.hasMatch(loginEmailController.text)){
+      email = false;
+    }
+
+    if(loginPasswordController.text.isEmpty) {
+      password = false;
+    }
+
+    setState(() {
+      _loginEmailIsValid = email;
+      _loginPasswordIsValid = password;
+    });
+
+    if(email && password){
+      return true;
+    }
+
+    return false;
+  }
+
+  bool validateSignup(){
+    var name = true;
+    var email = true;
+    var password = true;
+
+    if(signupNameController.text.isEmpty){
+      name = false;
+    }
+
+    if(signupEmailController.text.isEmpty || !EmailRegex.hasMatch(loginEmailController.text)){
+      email = false;
+    }
+
+    if(signupPasswordController.text.isEmpty) {
+      password = false;
+    }
+
+    setState(() {
+      _signUpNameIsValid = name;
+      _signUpEmailIsValid = email;
+      _signUpPasswordIsValid = password;
+    });
+
+    if(name && email && password){
+      return true;
+    }
+
+    return false;
+
+  }
+
+  void signIn(String email, String password) async {
+    Map data = {
+      'email': email,
+      'password': password
+    };
+    
+    var token;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var response = await http.post(authentication_url, body: data);
+    print(authentication_url);
+    print(response.body);
+    print(response.statusCode);
+    if(response.statusCode == 201) {
+      token = json.decode(response.body);
+      setState(() {
+        sharedPreferences.setString('token', token);
+        showInSnackBar('LOGADO COM SUCESSO!');
+        //Navigator.of(context).pushNamed('home');
+      });
+    } else {
+      showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS");
     }
   }
 
+  void signUp(String username, String email, String password) async {
+    Map data = {
+      'username': username,
+      'email': email,
+      'password': password,
+      'initialBalance': 0.0
+    };
+
+    Map headers = {
+      'authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTc2ZDFiMTFjOWQ0NDAwMDBlNTAwNzUiLCJpYXQiOjE1ODQ4NDU3MzQsImV4cCI6MTU4NDkzMjEzNCwiYXVkIjoicGxhdHkuY29tIiwiaXNzIjoiUGxhdHkiLCJzdWIiOiJwbGF0eUBnbWFpbC5jb20ifQ.EN5pyCFrG13IG38G3C7TvAnjk3CoJ0Np1dDIYHWik4YEpvd_qkdAuUZx--QKX1iqSKz01F6X5_pH5x9URaMBow'
+    };
+
+    var token;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var response = await http.post(signup_url, body: data, headers: headers);
+    print(response.body);
+    if(response.statusCode == 201) {
+      token = json.decode(response.body);
+      setState(() {
+        sharedPreferences.setString('token', token);
+        showInSnackBar('LOGADO COM SUCESSO!');
+        //Navigator.of(context).pushNamed('home');
+      });
+    } else {
+      showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS");
+    }
+  }
 }

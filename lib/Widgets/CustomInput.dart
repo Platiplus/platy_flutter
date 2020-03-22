@@ -28,11 +28,13 @@ Widget CustomInput(
     ),
     decoration: InputDecoration(
         border: InputBorder.none,
-        contentPadding: EdgeInsets.only(top: 15.0),
+        contentPadding: EdgeInsets.only(top: 13.0),
         hintText: hintText,
         hintStyle: TextStyle(
           color: Theme.hintTextColor,
           fontFamily: Theme.primaryFontFamily,
+          fontSize: Theme.menuFontSize,
+          fontWeight: FontWeight.w400
         ),
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 15.0),
