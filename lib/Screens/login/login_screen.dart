@@ -1,14 +1,14 @@
+// FLUTTER DEPENDENCIES
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:platy/Utils/style_constants.dart' as Theme;
-import 'package:platy/Utils/utilities_constants.dart';
-import 'package:platy/Widgets/CustomWidgets.dart';
-import 'package:platy/Utils/Utils.dart';
 import 'dart:convert';
 
+// EXTERNAL DEPENDENCIES
+import 'package:platy/Styles/Styles.dart' as Theme;
+import 'package:platy/Widgets/Widgets.dart';
+import 'package:platy/Utils/Utils.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -39,7 +39,6 @@ class _LoginState extends State<Login> {
 
   bool _loginEmailIsValid = true;
   bool _loginPasswordIsValid = true;
-  bool _authenticationFailed = false;
 
   bool _signUpNameIsValid = true;
   bool _signUpEmailIsValid  = true;
@@ -59,78 +58,79 @@ class _LoginState extends State<Login> {
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
+          return true;
         },
         child: SingleChildScrollView(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height >= 775.0
-                    ? MediaQuery.of(context).size.height
-                    : 775.0,
-                decoration: new BoxDecoration(
-                  image: DecorationImage(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height >= 775.0
+                ? MediaQuery.of(context).size.height
+                : 775.0,
+            decoration: new BoxDecoration(
+                image: DecorationImage(
                     image: AssetImage('assets/images/backgrounds/background.png'),
                     alignment: Alignment.bottomCenter
-                  ),
-                  color: Color(0xFF223254)
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 75.0, bottom: 30),
-                      child: InkWell(
-                        child: Container(
-                          width: 150,
-                          height: 150,
-                          decoration: BoxDecoration(
-                            color: Color(0x50FFFFFF),
-                            borderRadius: BorderRadius.circular(100.0),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: _buildMenuBar(context),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (i) {
-                          if (!currentFocus.hasPrimaryFocus) {
-                            currentFocus.unfocus();
-                          }
-
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          if (i == 0) {
-                            setState(() {
-                              rightMenuTextColor = Colors.white;
-                              leftMenuTextColor = Theme.primaryHeaderColor;
-                            });
-                          } else if (i == 1) {
-                            setState(() {
-                              rightMenuTextColor = Theme.primaryHeaderColor;
-                              leftMenuTextColor = Colors.white;
-                            });
-                          }
-                        },
-                        children: <Widget>[
-                          new ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: _buildSignIn(context),
-                          ),
-                          new ConstrainedBox(
-                            constraints: const BoxConstraints.expand(),
-                            child: _buildSignUp(context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                color: Color(0xFF223254)
             ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 75.0, bottom: 30),
+                  child: InkWell(
+                    child: Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        color: Color(0x50FFFFFF),
+                        borderRadius: BorderRadius.circular(100.0),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: _buildMenuBar(context),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (i) {
+                      if (!currentFocus.hasPrimaryFocus) {
+                        currentFocus.unfocus();
+                      }
+
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                      if (i == 0) {
+                        setState(() {
+                          rightMenuTextColor = Colors.white;
+                          leftMenuTextColor = Theme.primaryHeaderColor;
+                        });
+                      } else if (i == 1) {
+                        setState(() {
+                          rightMenuTextColor = Theme.primaryHeaderColor;
+                          leftMenuTextColor = Colors.white;
+                        });
+                      }
+                    },
+                    children: <Widget>[
+                      new ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignIn(context),
+                      ),
+                      new ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: _buildSignUp(context),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -242,7 +242,7 @@ class _LoginState extends State<Login> {
                           child: CustomInput(
                               inputType: TextInputType.emailAddress,
                               hintText: 'E-mail',
-                              prefixIcon: Icon(FontAwesomeIcons.envelope, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                              prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               controller: loginEmailController,
                               focusNode: myFocusNodeEmailLogin,
                               nextFocus: myFocusNodePasswordLogin,
@@ -276,13 +276,12 @@ class _LoginState extends State<Login> {
                               obscure: _obscureTextLogin,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
-                              prefixIcon: Icon(FontAwesomeIcons.lock, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                              prefixIcon: Icon(CSIcons.lock, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               suffixIcon: IconButton(
                                   onPressed: _toggleLogin,
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
-                                  icon: Icon(_obscureTextLogin == true ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash, size: Theme.inputIconSize, color: Theme.linkTextColor),
-                                  padding: EdgeInsets.only(right: 14.0),
+                                  icon: Icon(_obscureTextLogin == true ? CSIcons.view : CSIcons.view_off, size: Theme.inputIconSize, color: Theme.linkTextColor),
                                   color: Color(0xFF606A7B),
                               ),
                               controller: loginPasswordController,
@@ -333,7 +332,11 @@ class _LoginState extends State<Login> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(50.0),
-                        onTap: (){
+                        onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
                           if(validateLogin()){
                             signIn(loginEmailController.text, loginPasswordController.text);
                           }
@@ -400,7 +403,7 @@ class _LoginState extends State<Login> {
                           height: 60.0,
                           child: CustomInput(
                               hintText: 'Nome',
-                              prefixIcon: Icon(FontAwesomeIcons.user, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                              prefixIcon: Icon(CSIcons.user, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               controller: signupNameController,
                               focusNode: myFocusNodeName,
                               nextFocus: myFocusNodeEmail,
@@ -433,7 +436,7 @@ class _LoginState extends State<Login> {
                             child: CustomInput(
                                 inputType: TextInputType.emailAddress,
                                 hintText: 'Email',
-                                prefixIcon: Icon(FontAwesomeIcons.envelope, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                                prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
                                 controller: signupEmailController,
                                 focusNode: myFocusNodeEmail,
                                 nextFocus: myFocusNodePassword,
@@ -467,13 +470,12 @@ class _LoginState extends State<Login> {
                               obscure: _obscureTextSignup,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
-                              prefixIcon: Icon(FontAwesomeIcons.lock, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                              prefixIcon: Icon(CSIcons.lock, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               suffixIcon: IconButton(
                                 onPressed: _toggleSignup,
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
-                                icon: Icon(_obscureTextSignup == true ? FontAwesomeIcons.eye: FontAwesomeIcons.eyeSlash, size: Theme.inputIconSize, color: Theme.linkTextColor),
-                                padding: EdgeInsets.only(right: 14.0),
+                                icon: Icon(_obscureTextSignup == true ? CSIcons.view: CSIcons.view_off, size: Theme.inputIconSize, color: Theme.linkTextColor),
                                 color: Color(0xFF606A7B),
                               ),
                               controller: signupPasswordController,
@@ -524,8 +526,15 @@ class _LoginState extends State<Login> {
                       color: Colors.transparent,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(50.0),
-                        onTap: () => {
-                          validateSignup()
+                        onTap: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+
+                          if(validateSignup()){
+                            signUp(signupNameController.text, signupEmailController.text, signupPasswordController.text);
+                          }
                         },
                         child: Center(
                             child: CustomButton('Cadastrar')
@@ -614,7 +623,7 @@ class _LoginState extends State<Login> {
       name = false;
     }
 
-    if(signupEmailController.text.isEmpty || !EmailRegex.hasMatch(loginEmailController.text)){
+    if(signupEmailController.text.isEmpty || !EmailRegex.hasMatch(signupEmailController.text)){
       email = false;
     }
 
@@ -642,16 +651,15 @@ class _LoginState extends State<Login> {
       'password': password
     };
     
-    var token;
+    var tokens;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var response = await http.post(authentication_url, body: data);
-    print(authentication_url);
-    print(response.body);
-    print(response.statusCode);
+
     if(response.statusCode == 201) {
-      token = json.decode(response.body);
+      tokens = json.decode(response.body);
       setState(() {
-        sharedPreferences.setString('token', token);
+        sharedPreferences.setString('accessToken', tokens['token']);
+        sharedPreferences.setString('refreshToken', tokens['refreshToken']);
         showInSnackBar('LOGADO COM SUCESSO!');
         //Navigator.of(context).pushNamed('home');
       });
@@ -668,23 +676,12 @@ class _LoginState extends State<Login> {
       'initialBalance': 0.0
     };
 
-    Map headers = {
-      'authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZTc2ZDFiMTFjOWQ0NDAwMDBlNTAwNzUiLCJpYXQiOjE1ODQ4NDU3MzQsImV4cCI6MTU4NDkzMjEzNCwiYXVkIjoicGxhdHkuY29tIiwiaXNzIjoiUGxhdHkiLCJzdWIiOiJwbGF0eUBnbWFpbC5jb20ifQ.EN5pyCFrG13IG38G3C7TvAnjk3CoJ0Np1dDIYHWik4YEpvd_qkdAuUZx--QKX1iqSKz01F6X5_pH5x9URaMBow'
-    };
+    var response = await http.post(signup_url, body: json.encode(data), headers: requestHeaders);
 
-    var token;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post(signup_url, body: data, headers: headers);
-    print(response.body);
     if(response.statusCode == 201) {
-      token = json.decode(response.body);
-      setState(() {
-        sharedPreferences.setString('token', token);
-        showInSnackBar('LOGADO COM SUCESSO!');
-        //Navigator.of(context).pushNamed('home');
-      });
+        showInSnackBar('USUÁRIO CRIADO COM SUCESSO!');
     } else {
-      showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS");
+      showInSnackBar("ERRO AO CRIAR USUÁRIO");
     }
   }
 }

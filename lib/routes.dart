@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platy/Screens/forgot_password/forgot_password_screen.dart';
+import 'package:platy/Screens/home/home_screen.dart';
 import 'package:platy/Screens/login/login_screen.dart';
 
 class RouteGenerator {
@@ -14,6 +15,9 @@ class RouteGenerator {
       case 'login':
         return MaterialPageRoute(builder: (_) => Login());
         break;
+
+      case 'home':
+        return MaterialPageRoute(builder: (_) => Home());
 
       case 'forgot':
         return MaterialPageRoute(builder: (_) => ForgotPassword());

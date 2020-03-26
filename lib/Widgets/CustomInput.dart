@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platy/Utils/style_constants.dart' as Theme;
+import 'package:platy/Styles/style_constants.dart' as Theme;
 
 Widget CustomInput(
     {
@@ -28,7 +28,7 @@ Widget CustomInput(
     ),
     decoration: InputDecoration(
         border: InputBorder.none,
-        contentPadding: EdgeInsets.only(top: 13.0),
+        contentPadding: EdgeInsets.only(top: 14.0),
         hintText: hintText,
         hintStyle: TextStyle(
           color: Theme.hintTextColor,
@@ -37,11 +37,11 @@ Widget CustomInput(
           fontWeight: FontWeight.w400
         ),
         prefixIcon: Padding(
-          padding: EdgeInsets.only(left: 15.0),
+          padding: EdgeInsets.only(left: 10.0),
           child: prefixIcon,
         ),
         suffixIcon: Padding(
-          padding: EdgeInsets.only(right: 5.0),
+          padding: EdgeInsets.only(right: 10.0),
           child: suffixIcon,
         ),
     ),
