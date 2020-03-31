@@ -23,7 +23,8 @@ Widget customInput(
     obscureText: obscure,
     keyboardType: inputType,
     style: TextStyle(
-        color: Theme.primaryTextColor
+        color: Theme.dirtyInputTextColor,
+        fontWeight: Theme.dirtyInputFontWeight
     ),
     decoration: InputDecoration(
         border: InputBorder.none,
@@ -32,11 +33,10 @@ Widget customInput(
         hintStyle: TextStyle(
           color: Theme.hintTextColor,
           fontFamily: Theme.primaryFontFamily,
-          fontSize: Theme.twoItemsMenuFontSize,
-          fontWeight: FontWeight.w400
+          fontSize: Theme.inputFontSize,
         ),
         prefixIcon: Padding(
-          padding: EdgeInsets.only(left: 10.0),
+          padding: EdgeInsets.only(left: 10.0, right: 5.0),
           child: prefixIcon,
         ),
         suffixIcon: Padding(

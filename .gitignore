@@ -28,6 +28,8 @@
 .pub-cache/
 .pub/
 /build/
+/lib/clean/
+
 .flutter-plugins-dependencies
 
 # Android related

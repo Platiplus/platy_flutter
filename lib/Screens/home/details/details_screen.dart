@@ -35,7 +35,7 @@ class HomeDetailsState extends State<HomeDetails> {
                 Padding(
                     padding: EdgeInsets.only(top: 50.0),
                     child: BackButton(
-                      color: Color(0xFF6C4BB6),
+                      color: Theme.inputSelectableIconColor,
                     ),
                 ),
                 Row(
@@ -44,8 +44,8 @@ class HomeDetailsState extends State<HomeDetails> {
                     Text(
                       "Balanço do mês",
                       style: TextStyle(
-                        color: Theme.deselectedBarItemTextColor,
-                        fontSize: Theme.warningFontSize,
+                        color: Theme.controlMenuDeselectedBarItemTextColor,
+                        fontSize: Theme.errorFeedbackFontSize,
                         fontFamily: Theme.primaryFontFamily,
                       ),
                     ),
@@ -59,8 +59,8 @@ class HomeDetailsState extends State<HomeDetails> {
                       child: Text(
                         "R\$ ",
                         style: TextStyle(
-                            color: Theme.primaryHeaderColor,
-                            fontSize: Theme.warningFontSize,
+                            color: Theme.moneyBalanceTextColor,
+                            fontSize: Theme.supportFontSize,
                             fontFamily: Theme.primaryFontFamily,
                             fontWeight: FontWeight.bold
                         ),
@@ -69,10 +69,10 @@ class HomeDetailsState extends State<HomeDetails> {
                     Text(
                       "4.200,75",
                       style: TextStyle(
-                          color: Theme.primaryHeaderColor,
-                          fontSize: Theme.header1FontSize,
+                          color: Theme.moneyBalanceTextColor,
+                          fontSize: Theme.moneyBalanceFontSize,
                           fontFamily: Theme.primaryFontFamily,
-                          fontWeight: FontWeight.bold
+                          fontWeight: Theme.moneyBalanceFontWeight
                       ),
                     ),
                   ],
@@ -91,8 +91,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                 Text(
                                   "Recebimentos",
                                   style: TextStyle(
-                                    color: Theme.deselectedBarItemTextColor,
-                                    fontSize: Theme.warningFontSize,
+                                    color: Theme.supportTextColor,
+                                    fontSize: Theme.supportFontSize,
                                     fontFamily: Theme.primaryFontFamily,
                                   ),
                                 ),
@@ -104,10 +104,10 @@ class HomeDetailsState extends State<HomeDetails> {
                                 Text(
                                   "R\$ 5.000,75",
                                   style: TextStyle(
-                                      color: Theme.primaryHeaderColor,
-                                      fontSize: Theme.twoItemsMenuFontSize,
+                                      color: Theme.moneyValueTextColor,
+                                      fontSize: Theme.moneyValueFontSize,
                                       fontFamily: Theme.primaryFontFamily,
-                                      fontWeight: FontWeight.bold
+                                      fontWeight: Theme.moneyBalanceFontWeight
                                   ),
                                 ),
                               ],
@@ -122,7 +122,7 @@ class HomeDetailsState extends State<HomeDetails> {
                             Container(
                               height: 40,
                               child: VerticalDivider(
-                                color: Color(0xFFF2F2F2),
+                                color: Theme.dividerColor,
                                 thickness: 1.0,
                               ),
                             ),
@@ -139,8 +139,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                 Text(
                                   "Despesas",
                                   style: TextStyle(
-                                    color: Theme.deselectedBarItemTextColor,
-                                    fontSize: Theme.warningFontSize,
+                                    color: Theme.supportTextColor,
+                                    fontSize: Theme.supportFontSize,
                                     fontFamily: Theme.primaryFontFamily,
                                   ),
                                 ),
@@ -152,8 +152,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                 Text(
                                   "R\$ 800,00",
                                   style: TextStyle(
-                                      color: Theme.primaryHeaderColor,
-                                      fontSize: Theme.twoItemsMenuFontSize,
+                                      color: Theme.moneyValueTextColor,
+                                      fontSize: Theme.moneyValueFontSize,
                                       fontFamily: Theme.primaryFontFamily,
                                       fontWeight: FontWeight.bold
                                   ),
@@ -188,8 +188,8 @@ class HomeDetailsState extends State<HomeDetails> {
                       Text(
                         "Maiores gastos",
                         style: TextStyle(
-                            color: Theme.primaryHeaderColor,
-                            fontSize: Theme.twoItemsMenuFontSize,
+                            color: Theme.moneyValueTextColor,
+                            fontSize: Theme.moneyValueFontSize,
                             fontFamily: Theme.primaryFontFamily,
                             fontWeight: FontWeight.bold
                         ),
@@ -232,8 +232,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                     Text(
                                       "R\$ 5.140,00",
                                       style: TextStyle(
-                                        color: Theme.primaryHeaderColor,
-                                        fontSize: Theme.warningFontSize,
+                                        color: Theme.supportTextColor,
+                                        fontSize: Theme.supportFontSize,
                                         fontFamily: Theme.primaryFontFamily,
                                       ),
                                     ),
@@ -272,8 +272,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                     Text(
                                       "R\$ 2.300,00",
                                       style: TextStyle(
-                                        color: Theme.primaryHeaderColor,
-                                        fontSize: Theme.warningFontSize,
+                                        color: Theme.supportTextColor,
+                                        fontSize: Theme.supportFontSize,
                                         fontFamily: Theme.primaryFontFamily,
                                       ),
                                     ),
@@ -312,8 +312,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                     Text(
                                       "R\$ 1.187,00",
                                       style: TextStyle(
-                                        color: Theme.primaryHeaderColor,
-                                        fontSize: Theme.warningFontSize,
+                                        color: Theme.supportTextColor,
+                                        fontSize: Theme.supportFontSize,
                                         fontFamily: Theme.primaryFontFamily,
                                       ),
                                     ),
@@ -352,8 +352,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                     Text(
                                       "R\$ 5.140,00",
                                       style: TextStyle(
-                                        color: Theme.primaryHeaderColor,
-                                        fontSize: Theme.warningFontSize,
+                                        color: Theme.supportTextColor,
+                                        fontSize: Theme.supportFontSize,
                                         fontFamily: Theme.primaryFontFamily,
                                       ),
                                     ),
@@ -392,8 +392,8 @@ class HomeDetailsState extends State<HomeDetails> {
                                     Text(
                                       "R\$ 4.130,00",
                                       style: TextStyle(
-                                        color: Theme.primaryHeaderColor,
-                                        fontSize: Theme.warningFontSize,
+                                        color: Theme.supportTextColor,
+                                        fontSize: Theme.supportFontSize,
                                         fontFamily: Theme.primaryFontFamily,
                                       ),
                                     ),

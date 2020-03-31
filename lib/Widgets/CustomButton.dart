@@ -6,8 +6,8 @@ Widget customButton(String text){
   return Text(
       text,
       style: TextStyle(
-        color: Colors.white,
-        fontSize: Theme.buttonTextSize,
+        color: Theme.buttonTextColor,
+        fontSize: Theme.buttonFontSize,
         letterSpacing: Theme.buttonLetterSpacing,
         fontFamily: Theme.primaryFontFamily,
         fontWeight: FontWeight.bold

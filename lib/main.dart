@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platy/routes.dart';
+import 'package:platy/Styles/Styles.dart' as Theme;
 
 void main() => runApp(MaterialApp(
   home: Platy(),
@@ -13,7 +14,7 @@ class Platy extends StatelessWidget {
           title: 'Platy',
           theme: new ThemeData(
             primarySwatch: Colors.indigo,
-            textSelectionHandleColor: Color(0xFF7644AD)
+            textSelectionHandleColor: Theme.inputSelectableIconColor
           ),
           initialRoute: '/',
           onGenerateRoute: RouteGenerator.generateRoute,

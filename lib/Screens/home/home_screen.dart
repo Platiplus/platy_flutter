@@ -31,7 +31,7 @@ class HomeState extends State<Home> {
       resizeToAvoidBottomPadding: true,
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Theme.bottomBarColor,
+        backgroundColor: Theme.appBackgroundColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Color(0x50FFFFFF),
         currentIndex: _currentIndex,

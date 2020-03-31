@@ -26,9 +26,9 @@ class Control extends StatefulWidget {
 class ControlState extends State<Control> {
 
   PageController _pageController;
-  Color leftMenuTextColor = Theme.selectedBarItemTextColor;
-  Color centerMenuTextColor = Theme.deselectedBarItemTextColor;
-  Color rightMenuTextColor = Theme.deselectedBarItemTextColor;
+  Color leftMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
+  Color centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
+  Color rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
 
   List<Transaction> variableOutcomeTransactions = [];
   List<Transaction> fixedOutcomeTransactions = [];
@@ -38,7 +38,6 @@ class ControlState extends State<Control> {
   @override
   Widget build(BuildContext context) {
     FocusScopeNode currentFocus = FocusScope.of(context);
-
 
     return Stack(
       fit: StackFit.expand,
@@ -56,14 +55,14 @@ class ControlState extends State<Control> {
                         Text(
                           'FEVEREIRO',
                           style: TextStyle(
-                            fontSize: Theme.header2FontSize,
+                            fontSize: Theme.monthButtonFontSize,
                             fontFamily: Theme.primaryFontFamily,
-                            color: Theme.monthMenuColor,
+                            color: Theme.monthButtonTextColor,
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 10.0),
-                          child: Icon(CSIcons.arrow_down, color: Theme.linkTextColor, size: Theme.inputIconSize),
+                          child: Icon(CSIcons.arrow_down, color: Theme.inputSelectableIconColor, size: Theme.inputIconSize),
                         ),
                       ],
                     )
@@ -81,10 +80,10 @@ class ControlState extends State<Control> {
                       child: Text(
                         "R\$ 0,00",
                         style: TextStyle(
-                          color: Theme.primaryHeaderColor,
-                          fontSize: Theme.header1FontSize,
+                          color: Theme.moneyBalanceTextColor,
+                          fontSize: Theme.moneyBalanceFontSize,
                           fontFamily: Theme.primaryFontFamily,
-                          fontWeight: FontWeight.bold
+                          fontWeight: Theme.moneyBalanceFontWeight
                         ),
                       ),
                     ),
@@ -96,7 +95,7 @@ class ControlState extends State<Control> {
                             height: 24.0,
                             width: 24.0,
                             decoration: ShapeDecoration(
-                              color: Theme.linkTextColor,
+                              color: Theme.linkLightBGTextColor,
                               shape: CircleBorder(),
                             ),
                             child: Icon(
@@ -118,8 +117,8 @@ class ControlState extends State<Control> {
                   child: Text(
                     "Balanço do mês",
                     style: TextStyle(
-                      color: Theme.deselectedBarItemTextColor,
-                      fontSize: Theme.warningFontSize,
+                      color: Theme.supportTextColor,
+                      fontSize: Theme.supportFontSize,
                       fontFamily: Theme.primaryFontFamily,
                     ),
                   ),
@@ -129,7 +128,7 @@ class ControlState extends State<Control> {
                   child: Container(
                     height: 40,
                     child: VerticalDivider(
-                      color: Color(0xFFF2F2F2),
+                      color: Theme.dividerColor,
                       thickness: 1.0,
                     ),
                   ),
@@ -145,8 +144,8 @@ class ControlState extends State<Control> {
                       "Ver detalhes",
                       style: TextStyle(
                         decoration: TextDecoration.underline,
-                        color: Theme.linkTextColor,
-                        fontSize: Theme.warningFontSize,
+                        color: Theme.linkLightBGTextColor,
+                        fontSize: Theme.linkFontSize,
                         fontFamily: Theme.primaryFontFamily,
                       ),
                     ),
@@ -160,7 +159,7 @@ class ControlState extends State<Control> {
                 width: 348.0,
                 height: 60.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFFF2F2F2),
+                  color: Theme.controlMenuLightBGBackgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 ),
                 child: CustomPaint(
@@ -177,9 +176,8 @@ class ControlState extends State<Control> {
                             "Gasto Variável",
                             style: TextStyle(
                                 color: leftMenuTextColor,
-                                fontSize: Theme.threeItemsMenuFontSize,
+                                fontSize: Theme.sliderMenuFontSize,
                                 fontFamily: Theme.primaryFontFamily,
-                                fontWeight: FontWeight.w500
                             ),
                           ),
                         ),
@@ -193,9 +191,8 @@ class ControlState extends State<Control> {
                             "Gasto Fixo",
                             style: TextStyle(
                                 color: centerMenuTextColor,
-                                fontSize: Theme.threeItemsMenuFontSize,
+                                fontSize: Theme.sliderMenuFontSize,
                                 fontFamily: Theme.primaryFontFamily,
-                                fontWeight: FontWeight.w500
                             ),
                           ),
                         ),
@@ -209,9 +206,8 @@ class ControlState extends State<Control> {
                             "Recebimento",
                             style: TextStyle(
                                 color: rightMenuTextColor,
-                                fontSize: Theme.threeItemsMenuFontSize,
+                                fontSize: Theme.sliderMenuFontSize,
                                 fontFamily: Theme.primaryFontFamily,
-                                fontWeight: FontWeight.w500
                             ),
                           ),
                         ),
@@ -243,7 +239,7 @@ class ControlState extends State<Control> {
                           !_loading ? noTransactions() : Container(),
                           Visibility(
                             visible: _loading,
-                            child: _loading ? CircularProgressIndicator() : Container(),
+                            child: _loading ? CircularProgressIndicator(/*ADICIONAR COR AO PROGRESS*/) : Container(),
                           ),
                         ],
                       ),
@@ -384,21 +380,21 @@ class ControlState extends State<Control> {
   void changeMenuTextColors(i){
     if (i == 0) {
       setState(() {
-        rightMenuTextColor = Theme.deselectedBarItemTextColor;
-        centerMenuTextColor = Theme.deselectedBarItemTextColor;
-        leftMenuTextColor = Theme.selectedBarItemTextColor;
+        rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
+        centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
+        leftMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
       });
     } else if (i == 1) {
       setState(() {
-        rightMenuTextColor = Theme.deselectedBarItemTextColor;
-        centerMenuTextColor = Theme.selectedBarItemTextColor;
-        leftMenuTextColor = Theme.deselectedBarItemTextColor;
+        rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
+        centerMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
+        leftMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
       });
     } else if (i == 2) {
       setState(() {
-        rightMenuTextColor = Theme.selectedBarItemTextColor;
-        centerMenuTextColor = Theme.deselectedBarItemTextColor;
-        leftMenuTextColor = Theme.deselectedBarItemTextColor;
+        rightMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
+        centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
+        leftMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
       });
     }
   }

@@ -46,7 +46,7 @@ class _LoginState extends State<Login> {
 
   PageController _pageController;
 
-  Color leftMenuTextColor = Theme.primaryHeaderColor;
+  Color leftMenuTextColor = Theme.moneyBalanceTextColor;
   Color rightMenuTextColor = Colors.white;
 
   @override
@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
                     image: AssetImage('assets/images/backgrounds/background.png'),
                     alignment: Alignment.bottomCenter
                 ),
-                color: Color(0xFF223254)
+                color: Theme.appBackgroundColor
             ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -106,11 +106,11 @@ class _LoginState extends State<Login> {
                       if (i == 0) {
                         setState(() {
                           rightMenuTextColor = Colors.white;
-                          leftMenuTextColor = Theme.primaryHeaderColor;
+                          leftMenuTextColor = Theme.moneyBalanceTextColor;
                         });
                       } else if (i == 1) {
                         setState(() {
-                          rightMenuTextColor = Theme.primaryHeaderColor;
+                          rightMenuTextColor = Theme.moneyBalanceTextColor;
                           leftMenuTextColor = Colors.white;
                         });
                       }
@@ -165,7 +165,7 @@ class _LoginState extends State<Login> {
       width: 300.0,
       height: 60.0,
       decoration: BoxDecoration(
-        color: Color(0x802B2B2B),
+        color: Theme.loginMenuBackgroundColorUnselected,
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
       ),
       child: CustomPaint(
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                   "Login",
                   style: TextStyle(
                       color: leftMenuTextColor,
-                      fontSize: Theme.twoItemsMenuFontSize,
+                      fontSize: Theme.sliderMenuFontSize,
                       fontFamily: Theme.primaryFontFamily,
                       fontWeight: FontWeight.w500
                   ),
@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                   "Cadastro",
                   style: TextStyle(
                       color: rightMenuTextColor,
-                      fontSize: Theme.twoItemsMenuFontSize,
+                      fontSize: Theme.sliderMenuFontSize,
                       fontFamily: Theme.primaryFontFamily,
                       fontWeight: FontWeight.w500
                   ),
@@ -258,7 +258,7 @@ class _LoginState extends State<Login> {
                               (loginEmailController.text.isEmpty ? 'Preencha seu e-mail' : 'Verifique seu e-mail'),
                             style: TextStyle(
                                 fontFamily: Theme.primaryFontFamily,
-                                fontSize: Theme.warningFontSize,
+                                fontSize: Theme.errorFeedbackFontSize,
                                 color: Theme.errorFeedbackColor
                             ),
                           ),
@@ -281,7 +281,7 @@ class _LoginState extends State<Login> {
                                   onPressed: _toggleLogin,
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
-                                  icon: Icon(_obscureTextLogin == true ? CSIcons.view : CSIcons.view_off, size: Theme.inputIconSize, color: Theme.linkTextColor),
+                                  icon: Icon(_obscureTextLogin == true ? CSIcons.view : CSIcons.view_off, size: Theme.inputIconSize, color: Theme.inputSelectableIconColor),
                                   color: Color(0xFF606A7B),
                               ),
                               controller: loginPasswordController,
@@ -298,7 +298,7 @@ class _LoginState extends State<Login> {
                             'Preencha sua senha',
                             style: TextStyle(
                                 fontFamily: Theme.primaryFontFamily,
-                                fontSize: Theme.warningFontSize,
+                                fontSize: Theme.errorFeedbackFontSize,
                                 color: Theme.errorFeedbackColor
                             ),
                           ),
@@ -362,7 +362,7 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Colors.white,
-                      fontSize: Theme.header2FontSize,
+                      fontSize: Theme.linkFontSize,
                       fontFamily: Theme.primaryFontFamily,
                       fontWeight: FontWeight.bold
                   ),
@@ -420,7 +420,7 @@ class _LoginState extends State<Login> {
                             'Preencha o seu nome',
                             style: TextStyle(
                                 fontFamily: Theme.primaryFontFamily,
-                                fontSize: Theme.warningFontSize,
+                                fontSize: Theme.errorFeedbackFontSize,
                                 color: Theme.errorFeedbackColor
                             ),
                           ),
@@ -453,7 +453,7 @@ class _LoginState extends State<Login> {
                             'Preencha o seu email',
                             style: TextStyle(
                                 fontFamily: Theme.primaryFontFamily,
-                                fontSize: Theme.warningFontSize,
+                                fontSize: Theme.errorFeedbackFontSize,
                                 color: Theme.errorFeedbackColor
                             ),
                           ),
@@ -475,7 +475,7 @@ class _LoginState extends State<Login> {
                                 onPressed: _toggleSignup,
                                 highlightColor: Colors.transparent,
                                 splashColor: Colors.transparent,
-                                icon: Icon(_obscureTextSignup == true ? CSIcons.view: CSIcons.view_off, size: Theme.inputIconSize, color: Theme.linkTextColor),
+                                icon: Icon(_obscureTextSignup == true ? CSIcons.view: CSIcons.view_off, size: Theme.inputIconSize, color: Theme.inputSelectableIconColor),
                                 color: Color(0xFF606A7B),
                               ),
                               controller: signupPasswordController,
@@ -492,7 +492,7 @@ class _LoginState extends State<Login> {
                             'Preencha a sua senha',
                             style: TextStyle(
                                 fontFamily: Theme.primaryFontFamily,
-                                fontSize: Theme.warningFontSize,
+                                fontSize: Theme.errorFeedbackFontSize,
                                 color: Theme.errorFeedbackColor
                             ),
                           ),
@@ -560,7 +560,7 @@ class _LoginState extends State<Login> {
         textAlign: TextAlign.center,
         style: TextStyle(
             color: Colors.white,
-            fontSize: Theme.header2FontSize,
+            fontSize: Theme.snackFontSize,
             fontFamily: Theme.primaryFontFamily),
       ),
       backgroundColor: Theme.errorFeedbackColor,

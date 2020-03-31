@@ -35,7 +35,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
               Padding(
                   padding: EdgeInsets.only(top: 50.0),
                   child: BackButton(
-                    color: Color(0xFF6C4BB6),
+                    color: Theme.inputSelectableIconColor,
                   )
               ),
               Padding(
@@ -50,8 +50,9 @@ class ForgotPasswordState extends State<ForgotPassword> {
                           style: TextStyle(
                               fontFamily: Theme.primaryFontFamily,
                               fontWeight: FontWeight.bold,
-                              fontSize: Theme.header1FontSize,
-                              color: Theme.primaryHeaderColor),
+                              fontSize: Theme.moneyBalanceFontSize,
+                              color: Theme.moneyBalanceTextColor
+                          ),
                         ),
                       ),
                     ],
@@ -64,8 +65,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                           "Digite seu e-mail e vamos enviar \ninstruções para que você a redefina",
                           style: TextStyle(
                               fontFamily: Theme.primaryFontFamily,
-                              fontSize: Theme.header2FontSize,
-                              color: Color(0xFF4A515E)),
+                              fontSize: Theme.behaviorDescriptionFontSize,
+                              color: Theme.behaviorDescriptionTextColor),
                         ),
                       ),
                     ],
@@ -94,8 +95,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                               begin: Alignment.topLeft,
                               end: Alignment(0.75, 0.0),
                               colors: [
-                                Color(0xFF1680ff),
-                                Color(0xFF7644ad)
+                                Theme.gradientBegin,
+                                Theme.gradientEnd
                               ]
                           ),
                           borderRadius: BorderRadius.circular(50.0),

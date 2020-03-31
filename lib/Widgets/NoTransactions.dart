@@ -22,8 +22,8 @@ Widget noTransactions()
         'Nenhum valor lançado.\nComece agora!',
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: Theme.primaryHeaderColor,
-          fontSize: Theme.twoItemsMenuFontSize,
+          color: Theme.supportTextColor,
+          fontSize: Theme.supportFontSize,
           fontFamily: Theme.primaryFontFamily,
         ),
       )

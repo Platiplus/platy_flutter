@@ -43,10 +43,10 @@ class _TransactionListItemState extends State<TransactionListItem>{
                               width: 16,
                               height: 16,
                               decoration: BoxDecoration(
-                                color: widget.transaction.status ? Color(0xFF1ABC9C) : Colors.white,
+                                color: widget.transaction.status ? Theme.transactionPaidStatusBackgroundColor : Theme.transactionPendingStatusBackgroundColor,
                                 borderRadius: BorderRadius.circular(50.0),
                                 border: new Border.all(
-                                    color: Color(0xFFD4D4D4),
+                                    color: Theme.transactionStatusBorderColor,
                                     width: 1.0,
                                     style: BorderStyle.solid
                                 ),
@@ -58,7 +58,7 @@ class _TransactionListItemState extends State<TransactionListItem>{
                             child: Container(
                               height: 60,
                               child: VerticalDivider(
-                                color: Color(0xFFF2F2F2),
+                                color: Theme.dividerColor,
                                 thickness: 1.0,
                               ),
                             ),
@@ -78,10 +78,10 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                   child: Text(
                                     "R\$ " + widget.transaction.value.toString(),
                                     style: TextStyle(
-                                        fontSize: Theme.twoItemsMenuFontSize,
+                                        fontSize: Theme.moneyValueFontSize,
                                         fontFamily: Theme.primaryFontFamily,
-                                        fontWeight: FontWeight.bold,
-                                        color: Theme.transactionValueText
+                                        fontWeight: Theme.moneyBalanceFontWeight,
+                                        color: Theme.moneyValueTextColor
                                     ),
                                   ),
                                 ),
@@ -95,8 +95,8 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                   child: Text(
                                     widget.transaction.description,
                                     style: TextStyle(
-                                      color: Theme.hintTextColor,
-                                      fontSize: Theme.warningFontSize,
+                                      color: Theme.supportTextColor,
+                                      fontSize: Theme.supportFontSize,
                                       fontFamily: Theme.primaryFontFamily,
                                     ),
                                   ),
@@ -115,24 +115,24 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                         Text(
                                           widget.transaction.date.day.toString() + '/' + widget.transaction.date.month.toString() + '/' + widget.transaction.date.year.toString(),
                                           style: TextStyle(
-                                            color: Theme.hintTextColor,
-                                            fontSize: Theme.warningFontSize,
+                                            color: Theme.supportTextColor,
+                                            fontSize: Theme.supportFontSize,
                                             fontFamily: Theme.primaryFontFamily,
                                           ),
                                         ),
                                         Text(
                                           ' - ',
                                           style: TextStyle(
-                                            color: Theme.hintTextColor,
-                                            fontSize: Theme.warningFontSize,
+                                            color: Theme.supportTextColor,
+                                            fontSize: Theme.supportFontSize,
                                             fontFamily: Theme.primaryFontFamily,
                                           ),
                                         ),
                                         Text(
                                           widget.transaction.target,
                                           style: TextStyle(
-                                            color: Theme.hintTextColor,
-                                            fontSize: Theme.warningFontSize,
+                                            color: Theme.supportTextColor,
+                                            fontSize: Theme.supportFontSize,
                                             fontFamily: Theme.primaryFontFamily,
                                           ),
                                         ),
@@ -165,7 +165,7 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                     width: 22.0,
                                     child:
                                     IconButton(
-                                      icon: Icon(CSIcons.edit, color: Theme.linkTextColor, size: Theme.inputIconSize),
+                                      icon: Icon(CSIcons.edit, color: Theme.inputSelectableIconColor, size: Theme.inputIconSize),
                                       padding: EdgeInsets.only(right: 24.0),
                                       onPressed: (){
                                         widget.onEdit();
@@ -183,8 +183,8 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                   Text(
                                     widget.transaction.category,
                                     style: TextStyle(
-                                      color: Theme.hintTextColor,
-                                      fontSize: Theme.warningFontSize,
+                                      color: Theme.supportTextColor,
+                                      fontSize: Theme.supportFontSize,
                                       fontFamily: Theme.primaryFontFamily,
                                     ),
                                   ),

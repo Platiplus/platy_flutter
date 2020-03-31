@@ -3,6 +3,7 @@ import 'package:platy/routes.dart';
 import 'package:platy/Utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:platy/Styles/Styles.dart' as Theme;
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(
@@ -42,7 +43,7 @@ class PlatyState extends State<Platy> {
               title: 'Platy',
               theme: new ThemeData(
                   primarySwatch: Colors.indigo,
-                  textSelectionHandleColor: Color(0xFF7644AD)
+                  textSelectionHandleColor: Theme.inputSelectableIconColor
               ),
               initialRoute: homePage,
               onGenerateRoute: RouteGenerator.generateRoute,

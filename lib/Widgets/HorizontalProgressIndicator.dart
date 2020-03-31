@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:platy/Styles/Styles.dart' as Theme;
 
 class HorizontalProgressIndicator extends StatefulWidget {
   final endAnimation;
@@ -40,9 +41,9 @@ class HorizontalProgressIndicatorState extends State<HorizontalProgressIndicator
   @override
   Widget build(BuildContext context) {
     return LinearProgressIndicator(
-        backgroundColor: Color(0xFFEEEEEE),
+        backgroundColor: Theme.linearProgressBackgroundColor,
         valueColor: AlwaysStoppedAnimation<Color>(
-            Color(0xFF4A9CFF)
+            Theme.linearProgressForegroundColor
         ),
         value: animation.value
     );
