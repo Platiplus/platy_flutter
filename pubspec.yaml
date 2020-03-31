@@ -28,13 +28,13 @@ dev_dependencies:
     sdk: flutter
   http: any
   shared_preferences: any
-# font_awesome_flutter: ^8.0.1
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/backgrounds/background.png
+    - assets/images/illustrations/platy-login.png
 
   fonts:
 

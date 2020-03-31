@@ -61,10 +61,10 @@ class PlatyState extends State<Platy> {
   Future<bool> getLoggedUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    var refreshToken = sharedPreferences.getString('token');
+    var refreshToken = sharedPreferences.getString('refreshToken');
 
     if(refreshToken != null){
-      var response = await http.post(refresh_url, headers: { 'authorization': refreshToken });
+      var response = await http.post(refreshUrl, headers: { 'authorization': refreshToken });
       if (response.statusCode == 200){
         var token = json.decode(response.body)['token'];
         sharedPreferences.setString('accessToken', token);

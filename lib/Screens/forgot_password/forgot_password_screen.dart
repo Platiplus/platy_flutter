@@ -76,7 +76,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       alignment: Alignment.centerLeft,
                       decoration: Theme.formFieldsStyle,
                       height: 60.0,
-                      child: CustomInput(
+                      child: customInput(
                         inputType: TextInputType.emailAddress,
                         hintText: 'E-mail',
                         prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
@@ -106,7 +106,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                             borderRadius: BorderRadius.circular(50.0),
                             onTap: () => {},
                             child: Center(
-                                child: CustomButton('Enviar')
+                                child: customButton('Enviar')
                             ),
                           ),
                         ),

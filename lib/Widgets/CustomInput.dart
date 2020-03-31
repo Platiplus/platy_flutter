@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:platy/Styles/style_constants.dart' as Theme;
 
-Widget CustomInput(
+Widget customInput(
     {
       bool obscure = false,
       TextInputType inputType = TextInputType.text,
       String hintText,
-      Icon prefixIcon = null,
-      IconButton suffixIcon = null,
-      TextEditingController controller = null,
-      FocusNode focusNode = null,
-      FocusNode nextFocus = null,
+      Icon prefixIcon,
+      IconButton suffixIcon,
+      TextEditingController controller,
+      FocusNode focusNode,
+      FocusNode nextFocus,
       BuildContext context })
 {
   return TextField(
@@ -18,7 +18,6 @@ Widget CustomInput(
     focusNode: focusNode,
     onSubmitted: (term){
       focusNode.unfocus();
-      print(term);
       FocusScope.of(context).requestFocus(nextFocus);
     },
     obscureText: obscure,
@@ -33,7 +32,7 @@ Widget CustomInput(
         hintStyle: TextStyle(
           color: Theme.hintTextColor,
           fontFamily: Theme.primaryFontFamily,
-          fontSize: Theme.menuFontSize,
+          fontSize: Theme.twoItemsMenuFontSize,
           fontWeight: FontWeight.w400
         ),
         prefixIcon: Padding(

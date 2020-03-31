@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:platy/Styles/style_constants.dart' as Theme;
 
-Widget CustomButton(String text){
+Widget customButton(String text){
   return Text(
       text,
       style: TextStyle(

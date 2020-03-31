@@ -55,6 +55,7 @@ class _LoginState extends State<Login> {
 
     return new Scaffold(
       key: _scaffoldKey,
+      resizeToAvoidBottomPadding: true,
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
           overscroll.disallowGlow();
@@ -78,16 +79,16 @@ class _LoginState extends State<Login> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 75.0, bottom: 30),
-                  child: InkWell(
                     child: Container(
-                      width: 150,
-                      height: 150,
+                      width: 250,
+                      height: 190,
                       decoration: BoxDecoration(
-                        color: Color(0x50FFFFFF),
-                        borderRadius: BorderRadius.circular(100.0),
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/illustrations/platy-login.png'),
+                            alignment: Alignment.bottomCenter
+                        ),
                       ),
                     ),
-                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 20.0),
@@ -102,7 +103,6 @@ class _LoginState extends State<Login> {
                         currentFocus.unfocus();
                       }
 
-                      FocusScope.of(context).requestFocus(new FocusNode());
                       if (i == 0) {
                         setState(() {
                           rightMenuTextColor = Colors.white;
@@ -169,7 +169,7 @@ class _LoginState extends State<Login> {
         borderRadius: BorderRadius.all(Radius.circular(30.0)),
       ),
       child: CustomPaint(
-        painter: TabIndicationPainter(pageController: _pageController),
+        painter: TabIndicationPainterTwoItems(pageController: _pageController),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -182,7 +182,7 @@ class _LoginState extends State<Login> {
                   "Login",
                   style: TextStyle(
                       color: leftMenuTextColor,
-                      fontSize: Theme.menuFontSize,
+                      fontSize: Theme.twoItemsMenuFontSize,
                       fontFamily: Theme.primaryFontFamily,
                       fontWeight: FontWeight.w500
                   ),
@@ -198,7 +198,7 @@ class _LoginState extends State<Login> {
                   "Cadastro",
                   style: TextStyle(
                       color: rightMenuTextColor,
-                      fontSize: Theme.menuFontSize,
+                      fontSize: Theme.twoItemsMenuFontSize,
                       fontFamily: Theme.primaryFontFamily,
                       fontWeight: FontWeight.w500
                   ),
@@ -239,7 +239,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: CustomInput(
+                          child: customInput(
                               inputType: TextInputType.emailAddress,
                               hintText: 'E-mail',
                               prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
@@ -272,7 +272,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: CustomInput(
+                          child: customInput(
                               obscure: _obscureTextLogin,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
@@ -342,7 +342,7 @@ class _LoginState extends State<Login> {
                           }
                         },
                         child: Center(
-                          child: CustomButton('Entrar')
+                          child: customButton('Entrar')
                         ),
                       ),
                     ),
@@ -355,7 +355,7 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.only(top: 20.0),
             child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('forgot');
+                  Navigator.of(context).pushNamed('home');
                 },
                 child: Text(
                   "Esqueceu a senha?",
@@ -401,7 +401,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: CustomInput(
+                          child: customInput(
                               hintText: 'Nome',
                               prefixIcon: Icon(CSIcons.user, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               controller: signupNameController,
@@ -433,7 +433,7 @@ class _LoginState extends State<Login> {
                             alignment: Alignment.centerLeft,
                             decoration: Theme.formFieldsStyle,
                             height: 60.0,
-                            child: CustomInput(
+                            child: customInput(
                                 inputType: TextInputType.emailAddress,
                                 hintText: 'Email',
                                 prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
@@ -466,7 +466,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: CustomInput(
+                          child: customInput(
                               obscure: _obscureTextSignup,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
@@ -537,7 +537,7 @@ class _LoginState extends State<Login> {
                           }
                         },
                         child: Center(
-                            child: CustomButton('Cadastrar')
+                            child: customButton('Cadastrar')
                         ),
                       ),
                     ),
@@ -594,7 +594,7 @@ class _LoginState extends State<Login> {
     var email = true;
     var password = true;
 
-    if(loginEmailController.text.isEmpty || !EmailRegex.hasMatch(loginEmailController.text)){
+    if(loginEmailController.text.isEmpty || !emailRegex.hasMatch(loginEmailController.text)){
       email = false;
     }
 
@@ -623,7 +623,7 @@ class _LoginState extends State<Login> {
       name = false;
     }
 
-    if(signupEmailController.text.isEmpty || !EmailRegex.hasMatch(signupEmailController.text)){
+    if(signupEmailController.text.isEmpty || !emailRegex.hasMatch(signupEmailController.text)){
       email = false;
     }
 
@@ -653,15 +653,14 @@ class _LoginState extends State<Login> {
     
     var tokens;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post(authentication_url, body: data);
+    var response = await http.post(authenticationUrl, body: data);
 
     if(response.statusCode == 201) {
       tokens = json.decode(response.body);
       setState(() {
         sharedPreferences.setString('accessToken', tokens['token']);
         sharedPreferences.setString('refreshToken', tokens['refreshToken']);
-        showInSnackBar('LOGADO COM SUCESSO!');
-        //Navigator.of(context).pushNamed('home');
+        Navigator.of(context).pushNamed('home');
       });
     } else {
       showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS");
@@ -676,7 +675,7 @@ class _LoginState extends State<Login> {
       'initialBalance': 0.0
     };
 
-    var response = await http.post(signup_url, body: json.encode(data), headers: requestHeaders);
+    var response = await http.post(signupUrl, body: json.encode(data), headers: requestHeaders);
 
     if(response.statusCode == 201) {
         showInSnackBar('USUÁRIO CRIADO COM SUCESSO!');
