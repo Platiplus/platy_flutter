@@ -371,7 +371,11 @@ class ControlState extends State<Control> {
   }
 
   void fillTransactionsList() async {
-    _loading = true;
+
+    setState(() {
+      _loading = true;
+    });
+
     var token;
     Map<String, List<Transaction>> list = {
       "variable_outcome" : [],
