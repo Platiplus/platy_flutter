@@ -1,20 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:platy/Models/Transaction.dart';
 import 'package:platy/Widgets/Widgets.dart';
 import 'package:platy/Styles/Styles.dart' as Theme;
 
 class HomeDetails extends StatefulWidget {
-  HomeDetails({Key key}) : super(key: key);
+  HomeDetails({Key key, this.transactions}) : super(key: key);
+
+  final List<List<Transaction>> transactions;
+
   @override
   HomeDetailsState createState() => new HomeDetailsState();
 }
 
 class HomeDetailsState extends State<HomeDetails> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context){
+
     return new Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
@@ -216,13 +220,7 @@ class HomeDetailsState extends State<HomeDetails> {
                                 borderRadius: BorderRadius.circular(8),
                                 child: Container(
                                     width: 200,
-                                    child: LinearProgressIndicator(
-                                      backgroundColor: Color(0xFFEEEEEE),
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Color(0xFF4A9CFF)
-                                      ),
-                                      value: 0.7,
-                                    )
+                                    child: HorizontalProgressIndicator(endAnimation: 0.47)
                                 )
                             )
                           ),
@@ -262,13 +260,7 @@ class HomeDetailsState extends State<HomeDetails> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Container(
                                       width: 200,
-                                      child: LinearProgressIndicator(
-                                        backgroundColor: Color(0xFFEEEEEE),
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color(0xFF4A9CFF)
-                                        ),
-                                        value: 0.35,
-                                      )
+                                      child: HorizontalProgressIndicator(endAnimation: 0.75)
                                   )
                               )
                           ),
@@ -308,13 +300,7 @@ class HomeDetailsState extends State<HomeDetails> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Container(
                                       width: 200,
-                                      child: LinearProgressIndicator(
-                                        backgroundColor: Color(0xFFEEEEEE),
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color(0xFF4A9CFF)
-                                        ),
-                                        value: 0.25,
-                                      )
+                                      child: HorizontalProgressIndicator(endAnimation: 0.25)
                                   )
                               )
                           ),
@@ -354,13 +340,7 @@ class HomeDetailsState extends State<HomeDetails> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Container(
                                       width: 200,
-                                      child: LinearProgressIndicator(
-                                        backgroundColor: Color(0xFFEEEEEE),
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color(0xFF4A9CFF)
-                                        ),
-                                        value: 0.7,
-                                      )
+                                      child: HorizontalProgressIndicator(endAnimation: 0.35)
                                   )
                               )
                           ),
@@ -400,13 +380,7 @@ class HomeDetailsState extends State<HomeDetails> {
                                   borderRadius: BorderRadius.circular(8),
                                   child: Container(
                                       width: 200,
-                                      child: LinearProgressIndicator(
-                                        backgroundColor: Color(0xFFEEEEEE),
-                                        valueColor: AlwaysStoppedAnimation<Color>(
-                                            Color(0xFF4A9CFF)
-                                        ),
-                                        value: 0.62,
-                                      )
+                                      child: HorizontalProgressIndicator(endAnimation: 0.81)
                                   )
                               )
                           ),

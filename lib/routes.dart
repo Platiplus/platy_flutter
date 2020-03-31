@@ -7,7 +7,7 @@ import 'Screens/home/details/details_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){
-//    final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name){
       case '/':
@@ -26,7 +26,7 @@ class RouteGenerator {
         break;
 
       case 'home-details':
-        return MaterialPageRoute(builder: (_) => HomeDetails());
+        return MaterialPageRoute(builder: (_) => HomeDetails(transactions: args));
 
       default:
         return MaterialPageRoute(builder: (_) => Login());

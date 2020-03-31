@@ -138,7 +138,7 @@ class ControlState extends State<Control> {
                   padding: EdgeInsets.only(left: 270),
                   child: FlatButton(
                     onPressed: (){
-                      Navigator.of(context).pushNamed('home-details');
+                      Navigator.of(context).pushNamed('home-details', arguments: [variableOutcomeTransactions, fixedOutcomeTransactions, incomeTransactions]);
                     },
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Text(
@@ -260,6 +260,7 @@ class ControlState extends State<Control> {
                               variableOutcomeTransactions[index] = transaction;
                             });
                           },
+                          last: index == variableOutcomeTransactions.length - 1 ? true : false
                         );
                         return listItem;
                       },
@@ -268,17 +269,33 @@ class ControlState extends State<Control> {
                   ),
                   new ConstrainedBox(
                     constraints: const BoxConstraints.expand(),
-                    child: ListView.builder(
+                    child: fixedOutcomeTransactions.length == 0
+                        ?
+                    Padding(
+                      padding: EdgeInsets.only(top: 30.0),
+                      child: Column(
+                        children: <Widget>[
+                          !_loading ? noTransactions() : Container(),
+                          Visibility(
+                            visible: _loading,
+                            child: _loading ? CircularProgressIndicator() : Container(),
+                          ),
+                        ],
+                      ),
+                    )
+                        :
+                    ListView.builder(
                       itemBuilder: (_, index) {
                         var transaction = fixedOutcomeTransactions[index];
                         TransactionListItem listItem = new TransactionListItem(
-                          transaction: transaction,
-                          onEdit: (){
-                            setState(() {
-                              transaction.value = 1235;
-                              fixedOutcomeTransactions[index] = transaction;
-                            });
-                          },
+                            transaction: transaction,
+                            onEdit: (){
+                              setState(() {
+                                transaction.value = 1235;
+                                fixedOutcomeTransactions[index] = transaction;
+                              });
+                            },
+                            last: index == fixedOutcomeTransactions.length - 1 ? true : false
                         );
                         return listItem;
                       },
@@ -287,7 +304,22 @@ class ControlState extends State<Control> {
                   ),
                   new ConstrainedBox(
                     constraints: const BoxConstraints.expand(),
-                    child: ListView.builder(
+                    child: incomeTransactions.length == 0
+                        ?
+                    Padding(
+                      padding: EdgeInsets.only(top: 30.0),
+                      child: Column(
+                        children: <Widget>[
+                          !_loading ? noTransactions() : Container(),
+                          Visibility(
+                            visible: _loading,
+                            child: _loading ? CircularProgressIndicator() : Container(),
+                          ),
+                        ],
+                      ),
+                    )
+                        :
+                    ListView.builder(
                       itemBuilder: (_, index) {
                         var transaction = incomeTransactions[index];
                         TransactionListItem listItem = new TransactionListItem(
@@ -298,6 +330,7 @@ class ControlState extends State<Control> {
                               incomeTransactions[index] = transaction;
                             });
                           },
+                          last: index == incomeTransactions.length - 1 ? true : false
                         );
                         return listItem;
                       },
@@ -371,11 +404,6 @@ class ControlState extends State<Control> {
   }
 
   void fillTransactionsList() async {
-
-    setState(() {
-      _loading = true;
-    });
-
     var token;
     Map<String, List<Transaction>> list = {
       "variable_outcome" : [],
@@ -387,7 +415,6 @@ class ControlState extends State<Control> {
     token = sharedPreferences.getString('accessToken');
 
     var response = await http.get(getTransactionsUrl, headers: { 'authorization': 'Bearer ' + token });
-
     if(response.statusCode == 200) {
       var jsonList = json.decode(response.body) as List;
       List<Transaction> transactions = jsonList.map((t) => Transaction.fromJson(t)).toList();

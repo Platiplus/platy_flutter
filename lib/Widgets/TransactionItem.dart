@@ -9,8 +9,9 @@ class TransactionListItem extends StatefulWidget {
 
   final Function onEdit;
   final Transaction transaction;
+  final bool last;
 
-  TransactionListItem({ this.onEdit, this.transaction });
+  TransactionListItem({ this.onEdit, this.transaction, this.last });
 
   @override
   State<StatefulWidget> createState() => _TransactionListItemState();
@@ -52,11 +53,14 @@ class _TransactionListItemState extends State<TransactionListItem>{
                               ),
                             ),
                           ),
-                          Container(
-                            height: 60,
-                            child: VerticalDivider(
-                              color: Color(0xFFF2F2F2),
-                              thickness: 1.0,
+                          Visibility(
+                            visible: !widget.last,
+                            child: Container(
+                              height: 60,
+                              child: VerticalDivider(
+                                color: Color(0xFFF2F2F2),
+                                thickness: 1.0,
+                              ),
                             ),
                           ),
                         ],
