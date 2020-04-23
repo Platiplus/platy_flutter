@@ -1,16 +1,12 @@
-# platy
+# Platy
 
-A finance control application
+![PlatyIllustration](./assets/images/illustrations/platy-splash.png)
 
-## Getting Started
+#### Welcome to Platy Project
+***
+Platy is a Finance control app made in flutter.
+With it, you can control your financial life by creating and managing transactions in a secure environment, see charts that will demonstrate your cash flow and categorize your expenses.
 
-This project is a starting point for a Flutter application.
+The app is currently on development, feel free to contact me through e-mail about the project.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[contato@platiplus.dev](mailto:contato@platiplus.dev)
