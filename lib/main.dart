@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:platy/routes.dart';
-import 'package:platy/Styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
 
-void main() => runApp(MaterialApp(
+import 'injection_container.dart';
+
+void main() {
+  Injector.setup();
+  runApp(MaterialApp(
   home: Platy(),
   debugShowCheckedModeBanner: false,
-));
+  ));
+}
 
 class Platy extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -13,8 +18,8 @@ class Platy extends StatelessWidget {
         child: MaterialApp(
           title: 'Platy',
           theme: new ThemeData(
-            primarySwatch: Colors.indigo,
-            textSelectionHandleColor: Theme.inputSelectableIconColor
+              primarySwatch: Colors.indigo,
+              textSelectionHandleColor: Theme.inputSelectableIconColor
           ),
           initialRoute: '/',
           onGenerateRoute: RouteGenerator.generateRoute,
@@ -24,7 +29,6 @@ class Platy extends StatelessWidget {
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
           }
-        }
-        );
-      }
+        });
   }
+}

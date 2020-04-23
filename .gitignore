@@ -28,7 +28,7 @@
 .pub-cache/
 .pub/
 /build/
-/lib/clean/
+*.dev.dart
 
 .flutter-plugins-dependencies
 
