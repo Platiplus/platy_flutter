@@ -1,6 +1,8 @@
 # Platy
 
-![PlatyIllustration](./assets/images/illustrations/platy-login.png)
+<p align="center">
+  <img width="680" height="440" src="./assets/images/illustrations/platy-login.png">
+</p>
 
 #### Welcome to Platy Project
 ***
