@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:platy/routes.dart';
-import 'package:platy/Utils/Utils.dart';
+import 'package:platy/core/helpers/utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:platy/Styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(

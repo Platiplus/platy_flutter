@@ -1,6 +1,6 @@
 # Platy
 
-![PlatyIllustration](./assets/images/illustrations/platy-splash.png)
+![PlatyIllustration](./assets/images/illustrations/platy-login.png)
 
 #### Welcome to Platy Project
 ***
