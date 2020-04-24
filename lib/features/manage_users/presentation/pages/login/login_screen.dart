@@ -1,16 +1,20 @@
 // FLUTTER DEPENDENCIES
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
+import 'package:platy/features/manage_users/data/models/TokensModel.dart';
+import 'package:platy/features/manage_users/data/models/UserLoginDTO.dart';
+import 'package:platy/features/manage_users/data/models/UserModel.dart';
+import 'package:platy/features/manage_users/domain/usecases/UserLogin.dart';
+import 'package:platy/features/manage_users/domain/usecases/UserSignup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
 // EXTERNAL DEPENDENCIES
-import 'package:platy/core/helpers/constants/endpoint_constants.dart';
 import 'package:platy/core/helpers/constants/utilities_constants.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
-import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
+import 'package:platy/core/widgets/Widgets.dart';
 import 'package:platy/core/helpers/utils/Utils.dart';
+
+import 'package:platy/injection_container.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -20,7 +24,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
   //VARIABLES
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -36,6 +39,9 @@ class _LoginState extends State<Login> {
   TextEditingController signupNameController = new TextEditingController();
   TextEditingController signupPasswordController = new TextEditingController();
 
+  UserLogin userLogin;
+  UserSignup userSignup;
+
   bool _obscureTextLogin = true;
   bool _obscureTextSignup = true;
 
@@ -50,6 +56,11 @@ class _LoginState extends State<Login> {
 
   Color leftMenuTextColor = Theme.moneyBalanceTextColor;
   Color rightMenuTextColor = Colors.white;
+
+  _LoginState(){
+    userLogin = Injector.resolve<UserLogin>();
+    userSignup = Injector.resolve<UserSignup>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -648,41 +659,33 @@ class _LoginState extends State<Login> {
   }
 
   void signIn(String email, String password) async {
-    Map data = {
-      'email': email,
-      'password': password
-    };
-    
-    var tokens;
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post(scheme + '://' + apiBaseUrl + '/' + authenticationUrl, body: data);
+    UserLoginDTO credentials = new UserLoginDTO(email: email, password: password);
 
-    if(response.statusCode == 201) {
-      tokens = json.decode(response.body);
-      setState(() {
-        sharedPreferences.setString('accessToken', tokens['token']);
-        sharedPreferences.setString('refreshToken', tokens['refreshToken']);
-        Navigator.of(context).pushNamed('home');
-      });
-    } else {
-      showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS");
-    }
+    var response = await userLogin(credentials);
+
+    response.fold(
+            (error) => showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS"),
+            (retrieved) => registerTokens(retrieved)
+    );
   }
 
   void signUp(String username, String email, String password) async {
-    Map data = {
-      'username': username,
-      'email': email,
-      'password': password,
-      'initialBalance': 0.0
-    };
+    UserModel user = new UserModel(username: username, email: email, password: password, initialBalance: 0.0);
 
-    var response = await http.post(scheme + '://' + authApiUrl + '/' + signupUrl, body: json.encode(data), headers: requestHeaders);
+    var response = await userSignup(user);
 
-    if(response.statusCode == 201) {
-        showInSnackBar('USUÁRIO CRIADO COM SUCESSO!');
-    } else {
-      showInSnackBar("ERRO AO CRIAR USUÁRIO");
-    }
+    response.fold(
+            (error) => showInSnackBar("ERRO AO CRIAR USUÁRIO"),
+            (retrieved) => showInSnackBar('USUÁRIO CRIADO COM SUCESSO!')
+    );
+  }
+
+  registerTokens(TokensModel tokens) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      sharedPreferences.setString('accessToken', tokens.accessToken);
+      sharedPreferences.setString('refreshToken', tokens.refreshToken);
+      Navigator.of(context).pushNamed('home');
+    });
   }
 }

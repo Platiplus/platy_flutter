@@ -11,7 +11,7 @@ import 'package:platy/features/manage_transactions/domain/usecases/GetTransactio
 // EXTERNAL DEPENDENCIES
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/core/helpers/utils/TabIndicationPainter.dart';
-import 'package:platy/features/manage_transactions/presentation/widgets/CustomIcons.dart';
+import 'package:platy/core/widgets/CustomIcons.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/TransactionItem.dart';
 
 class Control extends StatefulWidget {

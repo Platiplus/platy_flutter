@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 // EXTERNAL DEPENDENCIES
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
-import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
+import 'package:platy/core/widgets/Widgets.dart';
 
 class ForgotPassword extends StatefulWidget {
   ForgotPassword({Key key}) : super(key: key);

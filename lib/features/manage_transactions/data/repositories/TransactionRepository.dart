@@ -4,7 +4,6 @@ import 'package:platy/core/error/Failures.dart';
 import 'package:platy/core/network/NetworkInfo.dart';
 import 'package:platy/features/manage_transactions/data/datasources/TransactionDataSource.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
 import 'package:platy/features/manage_transactions/domain/interfaces/repositories/ITransactionRepository.dart';
 
 class TransactionRepository implements ITransactionRepository {
@@ -27,7 +26,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> getTransactionById(String id) async {
+  Future<Either<Failure, List<TransactionModel>>> getTransactionById(String id) async {
       try {
         await connection();
 
@@ -41,7 +40,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> getTransactionsByCategory(String category) async {
+  Future<Either<Failure, List<TransactionModel>>> getTransactionsByCategory(String category) async {
     try {
       await connection();
 
@@ -55,7 +54,7 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   @override
-  Future<Either<Failure, List<Transaction>>> getTransactionsByDate(DateTime date) async {
+  Future<Either<Failure, List<TransactionModel>>> getTransactionsByDate(DateTime date) async {
     try {
       await connection();
 

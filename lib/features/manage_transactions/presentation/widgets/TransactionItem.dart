@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 
-import 'CustomIcons.dart';
+import 'package:platy/core/widgets/Widgets.dart';
 
 class TransactionListItem extends StatefulWidget {
 

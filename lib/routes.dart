@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/home/home_screen.dart';
-import 'package:platy/features/manage_transactions/presentation/pages/login/login_screen.dart';
+import 'package:platy/features/manage_users//presentation/pages/login/login_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/home/details/details_screen.dart';
 
 class RouteGenerator {
