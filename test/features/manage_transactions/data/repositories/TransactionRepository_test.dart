@@ -50,7 +50,7 @@ void main () {
         //arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         //act
-        repository.getTransactions(tParams);
+        repository.getAllTransactions();
         //assert
         verify(mockNetworkInfo.isConnected);
       }

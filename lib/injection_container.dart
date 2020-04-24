@@ -11,6 +11,7 @@ import 'package:platy/features/manage_transactions/data/datasources/TransactionD
 import 'package:platy/features/manage_transactions/domain/usecases/GetTransactions.dart';
 
 import 'package:platy/core/network/NetworkInfo.dart';
+import 'package:platy/core/interfaces/network/INetworkInfo.dart';
 
 abstract class Injector {
   static Container container;
@@ -22,7 +23,7 @@ abstract class Injector {
     container.registerSingleton<INetworkInfo, NetworkInfo>((c) => NetworkInfo(c<DataConnectionChecker>()));
     container.registerSingleton<ITransactionDataSource, TransactionDataSource>((c) => TransactionDataSource(client: http.Client()));
     container.registerSingleton<ITransactionRepository, TransactionRepository>((c) => TransactionRepository(remoteDataSource: c<ITransactionDataSource>(), networkInfo: c<INetworkInfo>()));
-    container.registerSingleton((c) => GetTransactions(c<ITransactionRepository>()));
+    container.registerSingleton((c) => GetAllTransactions(c<ITransactionRepository>()));
   }
 
   static final resolve = container.resolve;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
 class HorizontalProgressIndicator extends StatefulWidget {
   final endAnimation;

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 
 class HomeDetails extends StatefulWidget {

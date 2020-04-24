@@ -6,7 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 // EXTERNAL DEPENDENCIES
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/endpoint_constants.dart';
+import 'package:platy/core/helpers/constants/utilities_constants.dart';
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
 import 'package:platy/core/helpers/utils/Utils.dart';
 
@@ -653,7 +655,7 @@ class _LoginState extends State<Login> {
     
     var tokens;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await http.post(authenticationUrl, body: data);
+    var response = await http.post(scheme + '://' + apiBaseUrl + '/' + authenticationUrl, body: data);
 
     if(response.statusCode == 201) {
       tokens = json.decode(response.body);
@@ -675,7 +677,7 @@ class _LoginState extends State<Login> {
       'initialBalance': 0.0
     };
 
-    var response = await http.post(signupUrl, body: json.encode(data), headers: requestHeaders);
+    var response = await http.post(scheme + '://' + authApiUrl + '/' + signupUrl, body: json.encode(data), headers: requestHeaders);
 
     if(response.statusCode == 201) {
         showInSnackBar('USUÁRIO CRIADO COM SUCESSO!');

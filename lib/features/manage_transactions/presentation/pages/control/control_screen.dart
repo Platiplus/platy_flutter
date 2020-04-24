@@ -1,18 +1,16 @@
 // FLUTTER DEPENDENCIES
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:platy/core/helpers/utils/endpoint_constants.dart';
+import 'package:platy/core/error/Failures.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+import 'package:platy/injection_container.dart';
+import 'package:platy/features/manage_transactions/domain/usecases/GetTransactions.dart';
 
 // EXTERNAL DEPENDENCIES
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
-import 'package:platy/core/helpers/utils/painter_constants.dart';
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
+import 'package:platy/core/helpers/utils/TabIndicationPainter.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/CustomIcons.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/TransactionItem.dart';
 
@@ -24,7 +22,7 @@ class Control extends StatefulWidget {
 }
 
 class ControlState extends State<Control> {
-
+  GetAllTransactions getAllTransactions;
   PageController _pageController;
   Color leftMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
   Color centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
@@ -34,6 +32,10 @@ class ControlState extends State<Control> {
   List<TransactionModel> fixedOutcomeTransactions = [];
   List<TransactionModel> incomeTransactions = [];
   bool _loading = true;
+
+  ControlState(){
+    getAllTransactions = Injector.resolve<GetAllTransactions>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -400,20 +402,21 @@ class ControlState extends State<Control> {
   }
 
   void fillTransactionsList() async {
-    var token;
+
     Map<String, List<TransactionModel>> list = {
       "variable_outcome" : [],
       "fixed_outcome": [],
       "income": []
     };
 
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    token = sharedPreferences.getString('accessToken');
+    var transactions;
 
-    var response = await http.get(getTransactionsUrl, headers: { 'authorization': 'Bearer ' + token });
-    if(response.statusCode == 200) {
-      var jsonList = json.decode(response.body) as List;
-      List<TransactionModel> transactions = jsonList.map((t) => TransactionModel.fromJson(t)).toList();
+    var response = await getAllTransactions();
+
+    response.fold(
+        (error) => throw ServerFailure(),
+        (retrieved) => transactions = retrieved
+    );
 
       transactions.forEach((transaction){
         switch(transaction.type){
@@ -428,7 +431,6 @@ class ControlState extends State<Control> {
             break;
         }
       });
-    }
 
     setState(() {
       variableOutcomeTransactions = list["variable_outcome"];

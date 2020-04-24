@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:platy/core/error/Failures.dart';
-import 'package:platy/core/usecases/UseCase.dart';
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/core/interfaces/usecases/IUseCaseNoParams.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 import 'package:platy/features/manage_transactions/domain/interfaces/repositories/ITransactionRepository.dart';
 
-class GetTransactions implements UseCase<List<Transaction>, dynamic>{
+class GetAllTransactions implements IUseCaseNoParams<List<TransactionModel>>{
   final ITransactionRepository repository;
 
-  GetTransactions(this.repository);
+  GetAllTransactions(this.repository);
 
   @override
-  Future<Either<Failure, List<Transaction>>> call(params) async {
-    return await repository.getTransactions(params);
+  Future<Either<Failure, List<TransactionModel>>> call() async {
+    return await repository.getAllTransactions();
   }
 }

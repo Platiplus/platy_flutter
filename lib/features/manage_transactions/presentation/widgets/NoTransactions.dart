@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
 Widget noTransactions()
 {

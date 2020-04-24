@@ -3,7 +3,7 @@ import 'package:platy/features/manage_transactions/presentation/pages/control/co
 import 'package:platy/features/manage_transactions/presentation/pages/profile/profile_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/wallet/wallet_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);

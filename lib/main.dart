@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platy/routes.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
 import 'injection_container.dart';
 

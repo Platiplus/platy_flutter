@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:platy/core/helpers/constants/endpoint_constants.dart';
 import 'package:platy/routes.dart';
 import 'package:platy/core/helpers/utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:platy/core/helpers/styles/Styles.dart' as Theme;
+import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'dart:convert';
 
 void main() => runApp(MaterialApp(
@@ -65,7 +66,7 @@ class PlatyState extends State<Platy> {
     var refreshToken = sharedPreferences.getString('refreshToken');
 
     if(refreshToken != null){
-      var response = await http.post(refreshUrl, headers: { 'authorization': refreshToken });
+      var response = await http.post(scheme + '://' + authApiUrl + '/' + refreshUrl, headers: { 'authorization': refreshToken });
       if (response.statusCode == 200){
         var token = json.decode(response.body)['token'];
         sharedPreferences.setString('accessToken', token);

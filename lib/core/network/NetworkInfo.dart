@@ -1,8 +1,5 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
-
-abstract class INetworkInfo {
-  Future<bool> get isConnected;
-}
+import 'package:platy/core/interfaces/network/INetworkInfo.dart';
 
 class NetworkInfo implements INetworkInfo {
   final DataConnectionChecker connectionChecker;

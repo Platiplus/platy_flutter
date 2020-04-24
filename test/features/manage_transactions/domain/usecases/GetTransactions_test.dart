@@ -10,12 +10,12 @@ class MockTransactionRepository extends Mock implements ITransactionRepository {
 }
 
 void main(){
-  GetTransactions usecase;
+  GetAllTransactions usecase;
   MockTransactionRepository mockTransactionRepository;
 
   setUp(() {
     mockTransactionRepository = MockTransactionRepository();
-    usecase = GetTransactions(mockTransactionRepository);
+    usecase = GetAllTransactions(mockTransactionRepository);
   });
 
   final tTransactions = new List<Transaction>();
@@ -37,13 +37,13 @@ void main(){
     'should get transactions within a specific month',
       () async {
         //arrange
-        when(mockTransactionRepository.getTransactions(any))
+        when(mockTransactionRepository.getAllTransactions())
             .thenAnswer((_) async => Right(tTransactions));
         //act
-        final result = await usecase({});
+        final result = await usecase();
         //assert
         expect(result, Right(tTransactions));
-        verify(mockTransactionRepository.getTransactions({}));
+        verify(mockTransactionRepository.getAllTransactions());
         verifyNoMoreInteractions(mockTransactionRepository);
       },
   );
