@@ -6,6 +6,6 @@ import 'package:platy/features/manage_users/data/models/UserLoginDTO.dart';
 import 'package:platy/features/manage_users/data/models/UserModel.dart';
 
 abstract class IUserRepository {
-  Future<Either<Failure, TokensModel>> login(UserLoginDTO credentials);
-  Future<Either<Failure, UserInfoDTO>> signup(UserModel user);
+  Future<Either<Error, TokensModel>> login(UserLoginDTO credentials);
+  Future<Either<Error, UserInfoDTO>> signup(UserModel user);
 }

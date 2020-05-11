@@ -11,7 +11,7 @@ class UserSignup implements IUseCaseWithParams<UserInfoDTO, UserModel>{
   UserSignup(this.repository);
 
   @override
-  Future<Either<Failure, UserInfoDTO>> call(UserModel user) async {
+  Future<Either<SignUpError, UserInfoDTO>> call(UserModel user) async {
     return await repository.signup(user);
   }
 }

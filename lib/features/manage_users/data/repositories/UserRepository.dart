@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:platy/core/error/Exceptions.dart';
 import 'package:platy/core/error/Failures.dart';
 import 'package:platy/core/network/NetworkInfo.dart';
 import 'package:platy/features/manage_users/data/datasources/UserDataSource.dart';
@@ -16,41 +15,30 @@ class UserRepository implements IUserRepository {
   UserRepository({ this.remoteDataSource, this.networkInfo });
 
   @override
-  Future<Either<Failure, TokensModel>> login(UserLoginDTO credentials) async {
-    try {
-    await connection();
+  Future<Either<Error, TokensModel>> login(UserLoginDTO credentials) async {
+    if (!await connection()) return Left(NetworkError());
 
     final remoteTokens = await remoteDataSource.login(credentials);
 
-    if(remoteTokens.accessToken == null)
-      return Left(ServerFailure());
-
-    return Right(remoteTokens);
-    } on ServerException {
-      return Left(ServerFailure());
-    }
+    return remoteTokens;
   }
 
   @override
-  Future<Either<Failure, UserInfoDTO>> signup(UserModel user) async {
-    try {
-      await connection();
+  Future<Either<Error, UserInfoDTO>> signup(UserModel user) async {
+    if (!await connection()) return Left(NetworkError());
 
-      final remoteUser = await remoteDataSource.signup(user);
+    final remoteUser = await remoteDataSource.signup(user);
 
-      if(remoteUser.id == null)
-        return Left(ServerFailure());
-
-      return Right(remoteUser);
-    } on ServerException {
-      return Left(ServerFailure());
-    }
+    return remoteUser;
   }
 
-  Future<void> connection() async {
+  Future<bool> connection() async {
     var connected = await networkInfo.isConnected;
-    if(!connected){
-      throw ServerException();
+
+    if(connected) {
+      return true;
     }
+
+    return false;
   }
 }

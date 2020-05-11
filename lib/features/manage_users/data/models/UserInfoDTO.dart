@@ -12,7 +12,7 @@ class UserInfoDTO extends User {
     id: json['_id'],
     username: json['username'],
     email: json['email'],
-    initialBalance: json['initialBalance'],
+    initialBalance: json['initialBalance'].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {

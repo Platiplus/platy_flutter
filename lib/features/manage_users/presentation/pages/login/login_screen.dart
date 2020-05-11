@@ -252,7 +252,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: customInput(
+                          child: customInputWithIcon(
                               inputType: TextInputType.emailAddress,
                               hintText: 'E-mail',
                               prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
@@ -285,7 +285,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: customInput(
+                          child: customInputWithIcon(
                               obscure: _obscureTextLogin,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
@@ -414,7 +414,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: customInput(
+                          child: customInputWithIcon(
                               hintText: 'Nome',
                               prefixIcon: Icon(CSIcons.user, color: Theme.inputIconColor, size: Theme.inputIconSize),
                               controller: signupNameController,
@@ -446,7 +446,7 @@ class _LoginState extends State<Login> {
                             alignment: Alignment.centerLeft,
                             decoration: Theme.formFieldsStyle,
                             height: 60.0,
-                            child: customInput(
+                            child: customInputWithIcon(
                                 inputType: TextInputType.emailAddress,
                                 hintText: 'Email',
                                 prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
@@ -479,7 +479,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment.centerLeft,
                           decoration: Theme.formFieldsStyle,
                           height: 60.0,
-                          child: customInput(
+                          child: customInputWithIcon(
                               obscure: _obscureTextSignup,
                               inputType: TextInputType.visiblePassword,
                               hintText: 'Senha',
@@ -565,7 +565,7 @@ class _LoginState extends State<Login> {
   }
 
   // FUNCTIONS
-  void showInSnackBar(String value) {
+  void showInSnackBar(String value, bool error) {
     _scaffoldKey.currentState?.removeCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(
@@ -576,7 +576,7 @@ class _LoginState extends State<Login> {
             fontSize: Theme.snackFontSize,
             fontFamily: Theme.primaryFontFamily),
       ),
-      backgroundColor: Theme.errorFeedbackColor,
+      backgroundColor: error ? Theme.errorFeedbackColor: Theme.successFeedbackColor,
       duration: Duration(seconds: 3),
     ));
   }
@@ -664,7 +664,7 @@ class _LoginState extends State<Login> {
     var response = await userLogin(credentials);
 
     response.fold(
-            (error) => showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS"),
+            (error) => showInSnackBar("USUÁRIO E/OU SENHA INVÁLIDOS", true),
             (retrieved) => registerTokens(retrieved)
     );
   }
@@ -675,8 +675,8 @@ class _LoginState extends State<Login> {
     var response = await userSignup(user);
 
     response.fold(
-            (error) => showInSnackBar("ERRO AO CRIAR USUÁRIO"),
-            (retrieved) => showInSnackBar('USUÁRIO CRIADO COM SUCESSO!')
+            (error) => showInSnackBar("ERRO AO CRIAR USUÁRIO", true),
+            (retrieved) => onUserCreation()
     );
   }
 
@@ -687,5 +687,13 @@ class _LoginState extends State<Login> {
       sharedPreferences.setString('refreshToken', tokens.refreshToken);
       Navigator.of(context).pushNamed('home');
     });
+  }
+
+  onUserCreation() {
+    showInSnackBar('USUÁRIO CRIADO COM SUCESSO!', false);
+    signupEmailController.clear();
+    signupPasswordController.clear();
+    signupNameController.clear();
+    _pageController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 }

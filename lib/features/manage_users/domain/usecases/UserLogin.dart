@@ -11,7 +11,7 @@ class UserLogin implements IUseCaseWithParams<TokensModel, UserLoginDTO>{
   UserLogin(this.repository);
 
   @override
-  Future<Either<Failure, TokensModel>> call(UserLoginDTO credentials) async {
+  Future<Either<SignInError, TokensModel>> call(UserLoginDTO credentials) async {
     return await repository.login(credentials);
   }
 }
