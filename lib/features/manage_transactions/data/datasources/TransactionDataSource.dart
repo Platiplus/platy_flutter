@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:dartz/dartz.dart';
+import 'package:platy/core/error/Failures.dart';
 import 'package:platy/core/helpers/constants/endpoint_constants.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 import 'package:platy/features/manage_transactions/domain/interfaces/datasources/ITransactionDataSource.dart';
@@ -11,34 +13,49 @@ class TransactionDataSource implements ITransactionDataSource {
   TransactionDataSource({ this.client });
 
   @override
-  Future<List<TransactionModel>> getAllTransactions() async {
+  Future<Either<TransactionError, List<TransactionModel>>> getAllTransactions() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString('accessToken');
 
     var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: getTransactionsUrl);
-
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var token = sharedPreferences.getString('accessToken');
-
     var response = await client.get(uri, headers: { 'authorization': 'Bearer ' + token });
+    var responseMap = json.decode(response.body);
 
-    var jsonList = json.decode(response.body) as List;
-    List<TransactionModel> transactions = jsonList.map((t) => TransactionModel.fromJson(t)).toList();
+    if (response.statusCode != 200) {
+      return Left(TransactionError(response.statusCode, responseMap['message']));
+    } else {
+      var list = new List<TransactionModel>();
 
-    return transactions;
+      if (responseMap['count'] != 0) {
+        for (var transaction in responseMap['transactions']) {
+          list.add(TransactionModel.fromJson(transaction));
+        }
+      }
+      return Right(list);
+    }
   }
 
-  Future<List<TransactionModel>> getTransactionsByParams(params) async {
-    Map<String, String> query = Map.from(params);
-
-    var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: getTransactionsUrl, queryParameters: query);
-
+  Future<Either<TransactionError, List<TransactionModel>>> getTransactionsByParams(params) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('accessToken');
 
+    Map<String, String> query = Map.from(params);
+    var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: getTransactionsUrl, queryParameters: query);
+
     var response = await client.get(uri, headers: { 'authorization': 'Bearer ' + token });
+    var responseMap = json.decode(response.body);
 
-    var jsonList = json.decode(response.body) as List;
-    List<TransactionModel> transactions = jsonList.map((t) => TransactionModel.fromJson(t)).toList();
+    if (response.statusCode != 200) {
+      return Left(TransactionError(response.statusCode, responseMap['message']));
+    } else {
+      var list = new List<TransactionModel>();
 
-    return transactions;
+      if (responseMap['count'] != 0) {
+        for (var transaction in responseMap['transactions']) {
+          list.add(TransactionModel.fromJson(transaction));
+        }
+      }
+      return Right(list);
+    }
   }
 }

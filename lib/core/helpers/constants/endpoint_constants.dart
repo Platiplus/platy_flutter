@@ -1,8 +1,14 @@
+// SCHEME
 final scheme = 'https';
-final apiBaseUrl = 'platy-backend.herokuapp.com';
 
-final authenticationUrl = 'user/api/login';
-final signupUrl = 'user';
-final refreshUrl = 'refreshtoken';
+// BASE URLS
+final apiBaseUrl = 'platy-api-v2.herokuapp.com';
+final authBaseUrl = 'platy-authentication.herokuapp.com';
 
-final getTransactionsUrl = 'transaction';
+// AUTH URLS
+final authenticationUrl = 'auth/signin';
+final signupUrl = 'users';
+final refreshUrl = 'auth/refreshtoken';
+
+//TRANSACTION URLS
+final getTransactionsUrl = 'transactions/all';

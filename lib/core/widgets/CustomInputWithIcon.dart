@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
-Widget customInput(
+Widget customInputWithIcon(
     {
       bool obscure = false,
       TextInputType inputType = TextInputType.text,
@@ -12,8 +11,7 @@ Widget customInput(
       TextEditingController controller,
       FocusNode focusNode,
       FocusNode nextFocus,
-      BuildContext context,
-      MaskTextInputFormatter inputFormatter})
+      BuildContext context })
 {
   return TextField(
     controller: controller,
@@ -30,12 +28,20 @@ Widget customInput(
     ),
     decoration: InputDecoration(
         border: InputBorder.none,
-        contentPadding: EdgeInsets.only(left: 16.0),
+        contentPadding: EdgeInsets.only(top: 14.0),
         hintText: hintText,
         hintStyle: TextStyle(
           color: Theme.hintTextColor,
           fontFamily: Theme.primaryFontFamily,
           fontSize: Theme.inputFontSize,
+        ),
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(left: 10.0, right: 5.0),
+          child: prefixIcon,
+        ),
+        suffixIcon: Padding(
+          padding: EdgeInsets.only(right: 10.0),
+          child: suffixIcon,
         ),
     ),
   );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
-Widget customInput(
+Widget customInputWithFormatter(
     {
       bool obscure = false,
       TextInputType inputType = TextInputType.text,
@@ -16,6 +16,7 @@ Widget customInput(
       MaskTextInputFormatter inputFormatter})
 {
   return TextField(
+    inputFormatters: [inputFormatter],
     controller: controller,
     focusNode: focusNode,
     onSubmitted: (term){

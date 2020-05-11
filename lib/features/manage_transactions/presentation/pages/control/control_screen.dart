@@ -108,7 +108,7 @@ class ControlState extends State<Control> {
                           ),
                         ),
                         onTap: (){
-                          print('ADICIONAR TRANSACAO ATIVADO');
+                          Navigator.of(context).pushNamed('create-transaction');
                         },
                       )
                     ),
@@ -414,7 +414,7 @@ class ControlState extends State<Control> {
     var response = await getAllTransactions();
 
     response.fold(
-        (error) => throw ServerFailure(),
+        (error) => print(error.message),
         (retrieved) => transactions = retrieved
     );
 

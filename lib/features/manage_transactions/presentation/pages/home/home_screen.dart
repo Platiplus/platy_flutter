@@ -25,7 +25,7 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context){
-    return new Scaffold(
+    return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
       resizeToAvoidBottomPadding: true,

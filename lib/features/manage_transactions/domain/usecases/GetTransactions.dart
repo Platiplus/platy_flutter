@@ -10,7 +10,7 @@ class GetAllTransactions implements IUseCaseNoParams<List<TransactionModel>>{
   GetAllTransactions(this.repository);
 
   @override
-  Future<Either<Failure, List<TransactionModel>>> call() async {
+  Future<Either<TransactionError, List<TransactionModel>>> call() async {
     return await repository.getAllTransactions();
   }
 }

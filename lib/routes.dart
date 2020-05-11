@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/create_transaction_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/forgot_password/forgot_password_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/home/home_screen.dart';
 import 'package:platy/features/manage_users//presentation/pages/login/login_screen.dart';
@@ -26,6 +27,11 @@ class RouteGenerator {
 
       case 'home-details':
         return MaterialPageRoute(builder: (_) => HomeDetails(transactions: args));
+        break;
+
+      case 'create-transaction':
+        return MaterialPageRoute(builder: (_) => CreateTransaction());
+        break;
 
       default:
         return MaterialPageRoute(builder: (_) => Login());

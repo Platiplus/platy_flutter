@@ -12,6 +12,8 @@ final inputBorderColor = Color(0xFFDCDFE6);
 final transactionStatusBorderColor = Color(0xFFD4D4D4);
 final transactionPendingStatusBackgroundColor = Color(0xFFFFFFFF);
 final transactionPaidStatusBackgroundColor = Color(0xFF1ABC9C);
+final deselectedButtonBackgroundColor = Color(0xFFFFFFFF);
+final selectedButtonBackgroundColor = Color(0xFF6C4BB6);
 
 // MENU
 final loginMenuBackgroundColorUnselected = Color(0x20000000);
@@ -31,6 +33,7 @@ final primaryFontFamily = 'Montserrat';
 final hintTextColor = Color(0xFF606A7B);
 final dirtyInputTextColor = Color(0xFF333942);
 final errorFeedbackColor = Color(0xFFED3C56);
+final successFeedbackColor = Color(0xFF1680FF);
 final linkLightBGTextColor = Color(0xFF6C4BB6);
 final linkDarkBGTextColor = Color(0xFFFFFFFF);
 final buttonTextColor = Color(0xFFFFFFFF);
@@ -39,6 +42,9 @@ final supportTextColor = Color(0xFF606A7B);
 final monthButtonTextColor = Color(0xFF333942);
 final moneyValueTextColor = Color(0xFF333942);
 final behaviorDescriptionTextColor = Color(0xFF606A7B);
+final supportHeadersTextColor = Color(0xFF333942);
+final selectedButtonTextColor = Color(0xFFFFFFFF);
+final deselectedButtonTextColor = Color(0xFF6C4BB6);
 
 // ------ SIZES
 // UI
@@ -47,6 +53,7 @@ final moneyValueFontSize = 14.0;
 final linkFontSize = 12.0;
 final supportFontSize = 12.0;
 final behaviorDescriptionFontSize = 14.0;
+final supportHeadersSize = 20.0;
 
 // MENU
 final sliderMenuFontSize = 12.0;
@@ -63,10 +70,12 @@ final inputIconSize = 24.0;
 final buttonLetterSpacing = 1.0;
 final buttonFontSize = 16.0;
 final snackFontSize = 16.0;
+final supportButtonsFontSize = 12.0;
 
 // MISC
 final dirtyInputFontWeight = FontWeight.w500;
 final moneyBalanceFontWeight = FontWeight.bold;
+final supportHeadersFontWeight = FontWeight.bold;
 
 // COMPONENTS RELATED
 final formFieldsStyle = BoxDecoration(
