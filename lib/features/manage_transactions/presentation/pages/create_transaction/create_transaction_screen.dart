@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
+import 'package:platy/features/manage_transactions/domain/usecases/CreateTransactions.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_details/transaction_details_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_quotas/transaction_quotas_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_status/transaction_status_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_type/transaction_type_screen.dart';
+import 'package:platy/core/widgets/Widgets.dart';
+
 import 'dart:core';
 
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_value/transaction_value_screen.dart';
+import 'package:platy/injection_container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateTransaction extends StatefulWidget {
   @override
@@ -16,7 +21,12 @@ class CreateTransaction extends StatefulWidget {
 class _CreateTransactionState extends State<CreateTransaction> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final PageController pageController = PageController(initialPage: 0);
-  final Transaction createdTransaction = new Transaction();
+  final TransactionCreateModel createdTransaction = new TransactionCreateModel();
+  CreateTransactions createTransactions;
+
+  _CreateTransactionState(){
+    createTransactions = Injector.resolve<CreateTransactions>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +100,51 @@ class _CreateTransactionState extends State<CreateTransaction> {
     });
   }
 
-  changeTransactionDetails(String description, String target, DateTime date) {
+  changeTransactionDetails(String description, String target, DateTime date, String category) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       createdTransaction.description = description;
       createdTransaction.target = target;
       createdTransaction.date = date;
+      createdTransaction.category = category;
+      createdTransaction.account = sharedPreferences.getString('accountId');
     });
+
+//    var response = await createTransactions(createdTransaction);
+
+//    response.fold(
+//            (error) => showErrorDialog(context),
+//            (retrieved) => showSuccessDialog(context)
+//    );
+    Navigator.pop(context);
+  }
+
+  void showSuccessDialog(BuildContext context) {
+    Dialog dialog = CustomDialog(
+        assetPath: 'assets/images/animations/transaction_ok.json',
+        width: 106,
+        height: 76,
+        message: 'Transação criada\ncom sucesso',
+        behaviour: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context).pop();
+        });
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);
+  }
+
+  void showErrorDialog(BuildContext context) {
+    Dialog dialog = CustomDialog(
+        assetPath: 'assets/images/animations/transaction_ok.json',
+        width: 106,
+        height: 76,
+        message: 'Transação criada\ncom sucesso',
+        behaviour: () {
+          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context).pop();
+        });
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);
   }
 
 }

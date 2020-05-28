@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 
 class CreateTransactionQuotas extends StatefulWidget {
   final Function(String) callback;
-  final Transaction transaction;
+  final TransactionCreateModel transaction;
   CreateTransactionQuotas({ this.callback, this.transaction });
 
   @override

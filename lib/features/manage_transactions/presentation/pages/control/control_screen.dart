@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:platy/core/error/Failures.dart';
 import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 import 'package:platy/injection_container.dart';
@@ -32,6 +31,7 @@ class ControlState extends State<Control> {
   List<TransactionModel> fixedOutcomeTransactions = [];
   List<TransactionModel> incomeTransactions = [];
   bool _loading = true;
+  bool _rebuild = false;
 
   ControlState(){
     getAllTransactions = Injector.resolve<GetAllTransactions>();
@@ -108,7 +108,9 @@ class ControlState extends State<Control> {
                           ),
                         ),
                         onTap: (){
-                          Navigator.of(context).pushNamed('create-transaction');
+                          Navigator.of(context).pushNamed('create-transaction').then((value) {
+                            fillTransactionsList();
+                          });
                         },
                       )
                     ),
@@ -421,10 +423,10 @@ class ControlState extends State<Control> {
       transactions.forEach((transaction){
         switch(transaction.type){
           case 1:
-            list['income'].add(transaction);
+            list['variable_outcome'].add(transaction);
             break;
           case 2:
-            list['variable_outcome'].add(transaction);
+            list['income'].add(transaction);
             break;
           case 3:
             list['fixed_outcome'].add(transaction);

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/features/manage_transactions/data/enums/TransactionType.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 
 class CreateTransactionType extends StatefulWidget {
   final Function(int) callback;
-  final Transaction transaction;
+  final TransactionCreateModel transaction;
   CreateTransactionType({ this.callback, this.transaction });
 
   @override
@@ -85,7 +86,7 @@ class _CreateTransactionTypeState extends State<CreateTransactionType> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(50.0),
                           onTap: () => {
-                            changeSelection(1)
+                            changeSelection(TransactionType.GASTO)
                           },
                           child: Center(
                             child: Text(
@@ -122,7 +123,7 @@ class _CreateTransactionTypeState extends State<CreateTransactionType> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(50.0),
                           onTap: () => {
-                            changeSelection(2)
+                            changeSelection(TransactionType.RECEBIMENTO)
                           },
                           child: Center(
                             child: Text(
@@ -149,7 +150,7 @@ class _CreateTransactionTypeState extends State<CreateTransactionType> {
   }
 
   changeSelection(int type) {
-    if(type == 1) {
+    if(type == TransactionType.GASTO) {
       widget.callback(1);
       setState(() {
         buttonRecebimento['backgroundColor'] = Theme.deselectedButtonBackgroundColor;
@@ -158,7 +159,7 @@ class _CreateTransactionTypeState extends State<CreateTransactionType> {
         buttonGasto['textColor'] = Theme.selectedButtonTextColor;
       });
     } else {
-      widget.callback(2);
+      widget.callback(TransactionType.RECEBIMENTO);
       setState(() {
         buttonGasto['backgroundColor'] = Theme.deselectedButtonBackgroundColor;
         buttonGasto['textColor'] = Theme.deselectedButtonTextColor;

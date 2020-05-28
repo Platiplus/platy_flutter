@@ -24,4 +24,10 @@ class Transaction {
     this.owner,
     this.account
   });
+
+  @override
+  String toString() {
+    super.toString();
+    return "_id: $id, type: $type, value: $value, description: $description, date: $date, target: $target, category: $category, status: $status, quotas: $quotas, owner: $owner, account: $account";
+  }
 }

@@ -20,6 +20,10 @@ class TransactionError extends Error {
 
 //General Failures
 class NetworkError extends Error {
-  NetworkError() : super(status: 500, message: 'Device is not connected to the internet');
+  NetworkError() : super(status: 500, message: 'O Dispositivo não está conectado à internet');
+}
+
+class ServerOfflineError extends Error {
+  ServerOfflineError() : super(status: 500, message: 'O Servidor está inoperante');
 }
 

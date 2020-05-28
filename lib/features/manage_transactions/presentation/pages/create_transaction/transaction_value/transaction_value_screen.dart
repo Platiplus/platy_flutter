@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/core/helpers/constants/utilities_constants.dart';
 import 'package:platy/core/widgets/Widgets.dart';
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 
 class CreateTransactionValue extends StatefulWidget {
   final Function(double, String) callback;
-  final Transaction transaction;
+  final TransactionCreateModel transaction;
   CreateTransactionValue({ this.callback, this.transaction });
 
   @override
@@ -18,6 +18,10 @@ class _CreateTransactionValueState extends State<CreateTransactionValue> {
   final GlobalKey _tooltipKey = new GlobalKey();
   final FocusNode myFocusNodeValue = FocusNode();
   final List<DropdownMenuItem<int>> nQuotas = new List<DropdownMenuItem<int>>();
+
+  bool isNumberValid = true;
+  bool isQuotasValid = true;
+
   int _selectedNQuotas;
 
   TextEditingController valueController = new TextEditingController();
@@ -108,6 +112,26 @@ class _CreateTransactionValueState extends State<CreateTransactionValue> {
               ),
             ),
             Visibility(
+              visible: !isNumberValid,
+              child:
+              Padding(
+                padding: EdgeInsets.only(bottom: 5.0, left: 18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Preencha ou verifique o valor',
+                      style: TextStyle(
+                          fontFamily: Theme.primaryFontFamily,
+                          fontSize: Theme.errorFeedbackFontSize,
+                          color: Theme.errorFeedbackColor
+                      ),
+                    ),
+                  ],
+                )
+              ),
+            ),
+            Visibility(
               visible: widget.transaction.quotas != 'unique',
               child: Padding(
                 padding: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -132,6 +156,26 @@ class _CreateTransactionValueState extends State<CreateTransactionValue> {
                       ),
                     )
                 ),
+              ),
+            ),
+            Visibility(
+              visible: !isQuotasValid,
+              child:
+              Padding(
+                padding: EdgeInsets.only(bottom: 5.0, left: 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Preencha o número de repetições.',
+                      style: TextStyle(
+                          fontFamily: Theme.primaryFontFamily,
+                          fontSize: Theme.errorFeedbackFontSize,
+                          color: Theme.errorFeedbackColor
+                      ),
+                    ),
+                  ],
+                )
               ),
             ),
             Container(
@@ -229,26 +273,52 @@ class _CreateTransactionValueState extends State<CreateTransactionValue> {
   }
 
   onSubmit(String value, int quotas) {
+    numberValidation(value);
+    quotasValidation(quotas);
 
-    if(numberRegex.hasMatch(value) && quotas != null && widget.transaction.quotas != 'unique') {
-      widget.callback(double.parse(value), quotas.toString());
-    } else if (numberRegex.hasMatch(value) && quotas == null && widget.transaction.quotas == 'unique') {
-      widget.callback(double.parse(value), 'unique');
+    if (isNumberValid && isQuotasValid) {
+      if(widget.transaction.quotas != 'unique') {
+        widget.callback(double.parse(value), resolveQuotas(quotas));
+      } else {
+        widget.callback(double.parse(value), widget.transaction.quotas);
+      }
     }
-    else {
-      _scaffoldKey.currentState?.removeCurrentSnackBar();
-      _scaffoldKey.currentState.showSnackBar(new SnackBar(
-          content: new Text(
-            'Favor checar o preenchimento dos campos',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: Theme.snackFontSize,
-                fontFamily: Theme.primaryFontFamily),
-          ),
-          backgroundColor: Theme.errorFeedbackColor,
-          duration: Duration(seconds: 3)
-      ));
+  }
+
+  numberValidation(String value) {
+    bool valid;
+
+    if(brNumberRegex.hasMatch(value)) value = value.split(',').join('.');
+
+    if(value.isNotEmpty && numberRegex.hasMatch(value)) {
+      valid = true;
+    } else {
+      valid = false;
     }
+
+    setState(() {
+      isNumberValid = valid;
+    });
+  }
+
+  quotasValidation(int quotas) {
+    bool valid;
+
+    if(widget.transaction.quotas != 'unique' && quotas == null) {
+      valid = false;
+    } else {
+      valid = true;
+    }
+
+    setState(() {
+      isQuotasValid = valid;
+    });
+  }
+
+  resolveQuotas(int quotas) {
+    if(quotas != null) {
+      return quotas.toString();
+    }
+    return 'unique';
   }
 }

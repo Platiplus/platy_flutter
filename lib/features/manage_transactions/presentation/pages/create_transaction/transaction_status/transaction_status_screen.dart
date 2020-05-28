@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
-import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/features/manage_transactions/data/enums/TransactionStatus.dart';
+import 'package:platy/features/manage_transactions/data/enums/TransactionType.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 
 class CreateTransactionStatus extends StatefulWidget {
   final Function(bool) callback;
-  final Transaction transaction;
+  final TransactionCreateModel transaction;
   CreateTransactionStatus({ this.callback, this.transaction });
 
   @override
@@ -91,7 +93,7 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(50.0),
                           onTap: () => {
-                            changeSelection(true)
+                            changeSelection(TransactionStatus.PAGO)
                           },
                           child: Center(
                             child: Text(
@@ -128,7 +130,7 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(50.0),
                           onTap: () => {
-                            changeSelection(false)
+                            changeSelection(TransactionStatus.PENDENTE)
                           },
                           child: Center(
                             child: Text(
@@ -155,8 +157,8 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
   }
 
   changeSelection(bool status) {
-    if (status) {
-      widget.callback(true);
+    if (status == TransactionStatus.PAGO) {
+      widget.callback(TransactionStatus.PAGO);
       setState(() {
         buttonNo['backgroundColor'] = Theme.deselectedButtonBackgroundColor;
         buttonNo['textColor'] = Theme.deselectedButtonTextColor;
@@ -164,7 +166,7 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
         buttonYes['textColor'] = Theme.selectedButtonTextColor;
       });
     } else {
-      widget.callback(false);
+      widget.callback(TransactionStatus.PENDENTE);
       setState(() {
         buttonYes['backgroundColor'] = Theme.deselectedButtonBackgroundColor;
         buttonYes['textColor'] = Theme.deselectedButtonTextColor;
@@ -174,7 +176,7 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
     }
   }
   makeDescriptionText(int type) {
-    if (type == 1) {
+    if (type == TransactionType.GASTO) {
       return 'Essa conta já foi paga?';
     }
     return 'Essa conta já foi recebida?';

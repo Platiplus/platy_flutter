@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:platy/core/error/Failures.dart';
 import 'package:platy/core/network/NetworkInfo.dart';
 import 'package:platy/features/manage_transactions/data/datasources/TransactionDataSource.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 import 'package:platy/features/manage_transactions/domain/interfaces/repositories/ITransactionRepository.dart';
 
@@ -46,6 +47,15 @@ class TransactionRepository implements ITransactionRepository {
 
     Map<String, String> params = { 'date' : date.toString() };
     final remoteTransactions = await remoteDataSource.getTransactionsByParams(params);
+
+    return remoteTransactions;
+  }
+
+  @override
+  Future<Either<Error, List<TransactionModel>>> createTransactions(TransactionCreateModel transaction) async {
+    if (!await connection()) return Left(NetworkError());
+
+    final remoteTransactions = await remoteDataSource.createTransactions(transaction);
 
     return remoteTransactions;
   }

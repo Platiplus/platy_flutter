@@ -685,6 +685,8 @@ class _LoginState extends State<Login> {
     setState(() {
       sharedPreferences.setString('accessToken', tokens.accessToken);
       sharedPreferences.setString('refreshToken', tokens.refreshToken);
+      sharedPreferences.setString('userId', tokens.userId);
+      sharedPreferences.setString('accountId', tokens.accountId);
       Navigator.of(context).pushNamed('home');
     });
   }

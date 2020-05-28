@@ -1,4 +1,5 @@
 import 'package:platy/features/manage_transactions/domain/entities/Transaction.dart';
+import 'package:platy/core/helpers/constants/utilities_constants.dart';
 
 class TransactionModel extends Transaction {
   TransactionModel({
@@ -18,7 +19,7 @@ class TransactionModel extends Transaction {
   factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
       id: json['id'],
       type: json['type'],
-      value: json['value'],
+      value: json['value'].toDouble(),
       description: json['description'],
       date: DateTime.parse(json['date']),
       target: json['target'],
@@ -29,15 +30,15 @@ class TransactionModel extends Transaction {
       account: json['account']
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, String> toJson() => {
     "id": id,
-    "type": type,
+    "type": type.toString(),
     "value": value.toString(),
     "description": description,
-    "date": date.toString(),
+    "date": dateFormatter.format(date),
     "target": target,
     "category": category,
-    "status": status,
+    "status": status.toString(),
     "quotas": quotas,
     "owner": owner,
     "account": account

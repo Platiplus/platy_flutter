@@ -12,3 +12,5 @@ final refreshUrl = 'auth/refreshtoken';
 
 //TRANSACTION URLS
 final getTransactionsUrl = 'transactions/all';
+final createTransactionsUrl = 'transactions';
+final createManyTransactionsUrl = 'transactions/many';

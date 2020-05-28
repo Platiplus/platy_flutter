@@ -54,6 +54,7 @@ final linkFontSize = 12.0;
 final supportFontSize = 12.0;
 final behaviorDescriptionFontSize = 14.0;
 final supportHeadersSize = 20.0;
+final supportHeaders2Size = 16.0;
 
 // MENU
 final sliderMenuFontSize = 12.0;
