@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 import 'package:platy/features/manage_transactions/domain/usecases/CreateTransactions.dart';
+import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_confirmation/trasaction_confirmation_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_details/transaction_details_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_quotas/transaction_quotas_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_status/transaction_status_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_type/transaction_type_screen.dart';
 import 'package:platy/core/widgets/Widgets.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 import 'dart:core';
 
@@ -37,6 +39,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
       CreateTransactionStatus(callback: changeTransactionStatus, transaction: createdTransaction),
       CreateTransactionValue(callback: changeTransactionValue, transaction: createdTransaction),
       CreateTransactionDetails(callback: changeTransactionDetails, transaction: createdTransaction),
+      CreateTransactionConfirmation(callback: confirmTransaction)
     ];
 
     return Scaffold(
@@ -110,13 +113,28 @@ class _CreateTransactionState extends State<CreateTransaction> {
       createdTransaction.account = sharedPreferences.getString('accountId');
     });
 
-//    var response = await createTransactions(createdTransaction);
+    pageController.animateToPage(5, duration: Duration(milliseconds: 500), curve: Curves.easeInCirc);
+    confirmTransaction();
+  }
 
-//    response.fold(
-//            (error) => showErrorDialog(context),
-//            (retrieved) => showSuccessDialog(context)
-//    );
-    Navigator.pop(context);
+  confirmTransaction() async {
+    final ProgressDialog pr = ProgressDialog(context);
+    pr.style(message: "Confirmando transação");
+
+    await pr.show();
+
+    var response = await createTransactions(createdTransaction);
+
+    response.fold(
+            (error) async {
+              await pr.hide();
+              showErrorDialog(context);
+            },
+            (retrieved) async {
+              await pr.hide();
+              showSuccessDialog(context);
+            }
+    );
   }
 
   void showSuccessDialog(BuildContext context) {
@@ -142,6 +160,43 @@ class _CreateTransactionState extends State<CreateTransaction> {
         behaviour: () {
           Navigator.of(context, rootNavigator: true).pop();
           Navigator.of(context).pop();
+        });
+
+    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);
+  }
+
+  void showProgressIndicator(BuildContext context) {
+    Dialog dialog =  Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0),
+    ),
+    child: Container(height: 200.0,
+      width: 280.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                //INDICATOR
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+    );
+
+
+    CustomDialog(
+        assetPath: 'assets/images/animations/transaction_ok.json',
+        width: 106,
+        height: 76,
+        message: 'Transação criada\ncom sucesso',
+        behaviour: () {
+          Navigator.of(context, rootNavigator: true).pop();
         });
 
     showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);

@@ -18,7 +18,7 @@ class TransactionDataSource implements ITransactionDataSource {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     var token = sharedPreferences.getString('accessToken');
 
-    var uri = new Uri(scheme: 'http', host: '192.168.15.6', path: getTransactionsUrl, port: 8080);
+    var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: getTransactionsUrl);
 
     try {
       var response = await client.get(uri, headers: { 'authorization': 'Bearer ' + token });
@@ -46,7 +46,7 @@ class TransactionDataSource implements ITransactionDataSource {
     var token = sharedPreferences.getString('accessToken');
 
     Map<String, String> query = Map.from(params);
-    var uri = new Uri(scheme: 'http', host: '192.168.15.6', path: getTransactionsUrl, queryParameters: query, port: 8080);
+    var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: getTransactionsUrl, queryParameters: query);
 
     try {
       var response = await client.get(
@@ -78,7 +78,7 @@ class TransactionDataSource implements ITransactionDataSource {
     var createUrl = transaction.quotas != 'unique' ? createManyTransactionsUrl : createTransactionsUrl;
 
     var token = sharedPreferences.getString('accessToken');
-    var uri = new Uri(scheme: 'http', host: '192.168.15.6', path: createUrl, port: 8080);
+    var uri = new Uri(scheme: scheme, host: apiBaseUrl, path: createUrl);
 
     try {
       var response = await client.post(uri, headers: { 'authorization': 'Bearer ' + token, 'content-type': 'application/json' }, body: json.encode(transaction.toJson()));

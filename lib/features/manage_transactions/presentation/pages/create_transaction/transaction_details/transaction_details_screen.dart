@@ -20,6 +20,7 @@ class _CreateTransactionDetailsState extends State<CreateTransactionDetails> {
   final FocusNode myFocusNodeDescription = FocusNode();
   final FocusNode myFocusNodeTarget = FocusNode();
   final FocusNode myFocusNodeDate = FocusNode();
+  final FocusNode myFocusNodeCategory = FocusNode();
   final List<Category> nCategories = Categories.LIST;
   Category _selectedCategory;
 
@@ -87,7 +88,7 @@ class _CreateTransactionDetailsState extends State<CreateTransactionDetails> {
                     hintText: 'Descrição',
                     controller: descriptionController,
                     focusNode: myFocusNodeDescription,
-                    nextFocus: myFocusNodeTarget,
+                    nextFocus: myFocusNodeDate,
                     context: context
                 ), // CustomInput
               ),
@@ -124,6 +125,7 @@ class _CreateTransactionDetailsState extends State<CreateTransactionDetails> {
                     hintText: 'Data de vencimento (dd/mm/aa)',
                     controller: dateController,
                     focusNode: myFocusNodeDate,
+                    nextFocus: myFocusNodeTarget,
                     context: context
                 ), // CustomInput
               ),
@@ -159,7 +161,7 @@ class _CreateTransactionDetailsState extends State<CreateTransactionDetails> {
                     hintText: makeTargetText(widget.transaction.type),
                     controller: targetController,
                     focusNode: myFocusNodeTarget,
-                    nextFocus: myFocusNodeDate,
+                    nextFocus: myFocusNodeCategory,
                     context: context
                 ), // CustomInput
               ),
@@ -184,6 +186,7 @@ class _CreateTransactionDetailsState extends State<CreateTransactionDetails> {
                       value: _selectedCategory,
                       items: _buildDropdown(),
                       onChanged: onChangeDropdownItem,
+                      focusNode: myFocusNodeCategory,
                     ),
                   )
               ),

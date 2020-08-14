@@ -26,6 +26,7 @@ dependencies:
   mask_text_input_formatter: ^1.0.6
   intl: any
   lottie: ^0.3.4
+  progress_dialog: ^1.2.4
 # Service Locator
 # get_it: ^3.1.0
 
