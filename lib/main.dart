@@ -44,7 +44,6 @@ class PlatyState extends State<Platy> {
             }
             break;
         }
-        print(homePage);
         return new GestureDetector(
             child: MaterialApp(
               title: 'Platy',

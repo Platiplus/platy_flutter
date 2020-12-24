@@ -129,7 +129,6 @@ class TransactionDataSource implements ITransactionDataSource {
       var responseMap = json.decode(response.body);
 
       if (response.statusCode != 200) {
-        print(response.body);
         return Left(TransactionError(response.statusCode, responseMap['message']));
       } else {
         var list = new List<TransactionModel>();
@@ -170,7 +169,6 @@ class TransactionDataSource implements ITransactionDataSource {
       var responseMap = json.decode(response.body);
 
       if (response.statusCode != 200) {
-        print(response.body);
         return Left(TransactionError(response.statusCode, responseMap['message']));
       } else {
         var list = new List<TransactionModel>();
@@ -230,7 +228,6 @@ class TransactionDataSource implements ITransactionDataSource {
       var response = await client.send(request);
 
       if (response.statusCode != 200) {
-        print(response);
         return Left(TransactionError(response.statusCode, 'message'));
       } else {
         var list = new List<TransactionModel>();
