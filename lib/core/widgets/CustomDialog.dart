@@ -29,7 +29,7 @@ class CustomDialog extends Dialog {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
-                  Lottie.asset(assetPath, width: 106, height: 76, fit: BoxFit.fill, repeat: false),
+                  Lottie.asset(assetPath, width: this.width, height: this.height, fit: BoxFit.fill, repeat: false),
                 ],
               ),
             ),

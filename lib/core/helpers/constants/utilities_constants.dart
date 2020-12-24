@@ -29,3 +29,6 @@ final requestHeaders = {
 };
 
 final dateFormatter = DateFormat("dd/MM/yyyy");
+
+final currencyFormatter = new NumberFormat.currency(locale: "pt_BR", symbol: "R\$");
+final currencyFormatterNoSymbol = new NumberFormat.currency(locale: "pt_BR", symbol: "");

@@ -2,16 +2,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
-import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
-import 'package:platy/injection_container.dart';
-import 'package:platy/features/manage_transactions/domain/usecases/GetTransactions.dart';
 
 // EXTERNAL DEPENDENCIES
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 import 'package:platy/core/helpers/utils/TabIndicationPainter.dart';
 import 'package:platy/core/widgets/CustomIcons.dart';
-import 'package:platy/features/manage_transactions/presentation/widgets/TransactionItem.dart';
+import 'package:platy/features/manage_transactions/domain/usecases/GetTransactionsByDate.dart';
+import 'package:platy/features/manage_transactions/presentation/widgets/TransactionListItem.dart';
+import 'package:platy/core/helpers/constants/utilities_constants.dart';
+import 'package:platy/features/manage_transactions/presentation/widgets/Widgets.dart';
+import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
+import 'package:platy/injection_container.dart';
+import 'package:platy/features/manage_transactions/data/enums/Months.dart';
 
 class Control extends StatefulWidget {
   Control({Key key}) : super(key: key);
@@ -21,26 +23,25 @@ class Control extends StatefulWidget {
 }
 
 class ControlState extends State<Control> {
-  GetAllTransactions getAllTransactions;
+  GetTransactionsByDate getTransactionsByDate;
   PageController _pageController;
   Color leftMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
-  Color centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
   Color rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
 
   List<TransactionModel> variableOutcomeTransactions = [];
-  List<TransactionModel> fixedOutcomeTransactions = [];
   List<TransactionModel> incomeTransactions = [];
   bool _loading = true;
-  bool _rebuild = false;
+  double balance = 0.0;
+  int _selectedYear = DateTime.now().year;
+  int _selectedMonth = DateTime.now().month;
 
   ControlState(){
-    getAllTransactions = Injector.resolve<GetAllTransactions>();
+    getTransactionsByDate = Injector.resolve<GetTransactionsByDate>();
   }
 
   @override
   Widget build(BuildContext context) {
     FocusScopeNode currentFocus = FocusScope.of(context);
-
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -52,10 +53,13 @@ class ControlState extends State<Control> {
                 Padding(
                   padding: EdgeInsets.only(top: 60.0, left: 30.0, bottom: 20.0),
                   child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('month-calendar', arguments: makeMonthFilter);
+                    },
                     child: Row(
                       children: <Widget>[
                         Text(
-                          'FEVEREIRO',
+                          parseMonth(_selectedMonth).toUpperCase(),
                           style: TextStyle(
                             fontSize: Theme.monthButtonFontSize,
                             fontFamily: Theme.primaryFontFamily,
@@ -70,6 +74,30 @@ class ControlState extends State<Control> {
                     )
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 60.0, left: 30.0, bottom: 20.0),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed('year-calendar', arguments: makeYearFilter);
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            _selectedYear.toString(),
+                            style: TextStyle(
+                              fontSize: Theme.monthButtonFontSize,
+                              fontFamily: Theme.primaryFontFamily,
+                              color: Theme.monthButtonTextColor,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: Icon(CSIcons.arrow_down, color: Theme.inputSelectableIconColor, size: Theme.inputIconSize),
+                          ),
+                        ],
+                      )
+                  ),
+                ),
               ],
             ),
             Stack(
@@ -80,7 +108,7 @@ class ControlState extends State<Control> {
                     Padding(
                       padding: EdgeInsets.only(left: 30.0),
                       child: Text(
-                        "R\$ 0,00",
+                        currencyFormatter.format(balance),
                         style: TextStyle(
                           color: Theme.moneyBalanceTextColor,
                           fontSize: Theme.moneyBalanceFontSize,
@@ -107,7 +135,7 @@ class ControlState extends State<Control> {
                             ),
                           ),
                         ),
-                        onTap: (){
+                        onTap: () {
                           Navigator.of(context).pushNamed('create-transaction').then((value) {
                             fillTransactionsList();
                           });
@@ -141,7 +169,7 @@ class ControlState extends State<Control> {
                   padding: EdgeInsets.only(left: 270),
                   child: FlatButton(
                     onPressed: (){
-                      Navigator.of(context).pushNamed('home-details', arguments: [variableOutcomeTransactions, fixedOutcomeTransactions, incomeTransactions]);
+                      Navigator.of(context).pushNamed('home-details', arguments: [variableOutcomeTransactions, incomeTransactions]);
                     },
                     padding: EdgeInsets.only(left: 10, right: 10),
                     child: Text(
@@ -167,7 +195,7 @@ class ControlState extends State<Control> {
                   borderRadius: BorderRadius.all(Radius.circular(30.0)),
                 ),
                 child: CustomPaint(
-                  painter: TabIndicationPainterThreeItems(pageController: _pageController),
+                  painter: TabIndicationPainterMenu(pageController: _pageController),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -177,24 +205,9 @@ class ControlState extends State<Control> {
                           highlightColor: Colors.transparent,
                           onPressed: _onVariableOutcomeButtonPress,
                           child: Text(
-                            "Gasto Variável",
+                            "Gasto",
                             style: TextStyle(
                                 color: leftMenuTextColor,
-                                fontSize: Theme.sliderMenuFontSize,
-                                fontFamily: Theme.primaryFontFamily,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: FlatButton(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onPressed: _onFixedOutcomeButtonPress,
-                          child: Text(
-                            "Gasto Fixo",
-                            style: TextStyle(
-                                color: centerMenuTextColor,
                                 fontSize: Theme.sliderMenuFontSize,
                                 fontFamily: Theme.primaryFontFamily,
                             ),
@@ -254,52 +267,17 @@ class ControlState extends State<Control> {
                         var transaction = variableOutcomeTransactions[index];
                         TransactionListItem listItem = new TransactionListItem(
                           transaction: transaction,
-                          onEdit: (){
-                            setState(() {
-                              transaction.value = 1235;
-                              variableOutcomeTransactions[index] = transaction;
-                            });
+                          onEdit: () {
+                            Navigator.of(context).pushNamed('edit-transaction', arguments: { 'callback': fillTransactionsList, 'transaction': variableOutcomeTransactions[index] })
+                                .then((value) {
+                                  fillTransactionsList();
+                                });
                           },
                           last: index == variableOutcomeTransactions.length - 1 ? true : false
                         );
                         return listItem;
                       },
                       itemCount: variableOutcomeTransactions.length,
-                    ),
-                  ),
-                  new ConstrainedBox(
-                    constraints: const BoxConstraints.expand(),
-                    child: fixedOutcomeTransactions.length == 0
-                        ?
-                    Padding(
-                      padding: EdgeInsets.only(top: 30.0),
-                      child: Column(
-                        children: <Widget>[
-                          !_loading ? noTransactions() : Container(),
-                          Visibility(
-                            visible: _loading,
-                            child: _loading ? CircularProgressIndicator() : Container(),
-                          ),
-                        ],
-                      ),
-                    )
-                        :
-                    ListView.builder(
-                      itemBuilder: (_, index) {
-                        var transaction = fixedOutcomeTransactions[index];
-                        TransactionListItem listItem = new TransactionListItem(
-                            transaction: transaction,
-                            onEdit: (){
-                              setState(() {
-                                transaction.value = 1235;
-                                fixedOutcomeTransactions[index] = transaction;
-                              });
-                            },
-                            last: index == fixedOutcomeTransactions.length - 1 ? true : false
-                        );
-                        return listItem;
-                      },
-                      itemCount: fixedOutcomeTransactions.length,
                     ),
                   ),
                   new ConstrainedBox(
@@ -325,10 +303,10 @@ class ControlState extends State<Control> {
                         TransactionListItem listItem = new TransactionListItem(
                           transaction: transaction,
                           onEdit: (){
-                            setState(() {
-                              transaction.value = 1235;
-                              incomeTransactions[index] = transaction;
-                            });
+                            Navigator.of(context).pushNamed('edit-transaction', arguments: { 'callback': fillTransactionsList, 'transaction': incomeTransactions[index] })
+                                .then((value) {
+                                  fillTransactionsList();
+                                });
                           },
                           last: index == incomeTransactions.length - 1 ? true : false
                         );
@@ -371,13 +349,8 @@ class ControlState extends State<Control> {
         duration: Duration(milliseconds: 800), curve: Curves.decelerate);
   }
 
-  void _onFixedOutcomeButtonPress() {
-    _pageController?.animateToPage(1,
-        duration: Duration(milliseconds: 800), curve: Curves.decelerate);
-  }
-
   void _onIncomeButtonPress() {
-    _pageController?.animateToPage(2,
+    _pageController?.animateToPage(1,
         duration: Duration(milliseconds: 800), curve: Curves.decelerate);
   }
 
@@ -385,35 +358,50 @@ class ControlState extends State<Control> {
     if (i == 0) {
       setState(() {
         rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
-        centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
         leftMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
       });
     } else if (i == 1) {
       setState(() {
-        rightMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
-        centerMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
-        leftMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
-      });
-    } else if (i == 2) {
-      setState(() {
         rightMenuTextColor = Theme.controlMenuSelectedBarItemTextColor;
-        centerMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
         leftMenuTextColor = Theme.controlMenuDeselectedBarItemTextColor;
       });
     }
+  }
+
+  void makeMonthFilter(int month) {
+    setState(() {
+      _selectedMonth = month;
+    });
+    Navigator.of(context).pop();
+    fillTransactionsList();
+  }
+
+  void makeYearFilter(int year) {
+    setState(() {
+      _selectedYear = year;
+    });
+    Navigator.of(context).pop();
+    fillTransactionsList();
+  }
+
+  String parseMonth(int intMonth) {
+    List<Month> months = Months.LIST;
+    Month selectedMonth = months.firstWhere((month) => month.value == intMonth);
+    return selectedMonth.name;
   }
 
   void fillTransactionsList() async {
 
     Map<String, List<TransactionModel>> list = {
       "variable_outcome" : [],
-      "fixed_outcome": [],
       "income": []
     };
 
+    var totalBalance = 0.0;
     var transactions;
 
-    var response = await getAllTransactions();
+    var date = new DateTime(_selectedYear, _selectedMonth, 1);
+    var response = await getTransactionsByDate(date);
 
     response.fold(
         (error) => print(error.message),
@@ -424,20 +412,19 @@ class ControlState extends State<Control> {
         switch(transaction.type){
           case 1:
             list['variable_outcome'].add(transaction);
+            totalBalance -= transaction.value;
             break;
           case 2:
             list['income'].add(transaction);
-            break;
-          case 3:
-            list['fixed_outcome'].add(transaction);
+            totalBalance += transaction.value;
             break;
         }
       });
 
     setState(() {
       variableOutcomeTransactions = list["variable_outcome"];
-      fixedOutcomeTransactions = list["fixed_outcome"];
       incomeTransactions = list["income"];
+      balance = totalBalance;
       _loading = false;
     });
   }

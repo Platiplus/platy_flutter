@@ -48,7 +48,7 @@ class TabIndicationPainterTwoItems extends CustomPainter {
   bool shouldRepaint(TabIndicationPainterTwoItems oldDelegate) => true;
 }
 
-class TabIndicationPainterThreeItems extends CustomPainter {
+class TabIndicationPainterMenu extends CustomPainter {
   Paint painter;
   final double dxTarget;
   final double dxEntry;
@@ -57,8 +57,8 @@ class TabIndicationPainterThreeItems extends CustomPainter {
 
   final PageController pageController;
 
-  TabIndicationPainterThreeItems(
-      {this.dxTarget = 85.0,
+  TabIndicationPainterMenu(
+      {this.dxTarget = 145.0,
         this.dxEntry = 30.0,
         this.radius = 25.0,
         this.dy = 30.0, this.pageController}) : super(repaint: pageController) {

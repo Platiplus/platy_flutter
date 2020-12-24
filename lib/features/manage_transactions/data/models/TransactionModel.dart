@@ -17,7 +17,7 @@ class TransactionModel extends Transaction {
   }) : super(id: id, type: type, value: value, description: description, date: date, target: target, category: category, status: status, quotas: quotas, owner: owner, account: account);
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
-      id: json['id'],
+      id: json['_id'],
       type: json['type'],
       value: json['value'].toDouble(),
       description: json['description'],

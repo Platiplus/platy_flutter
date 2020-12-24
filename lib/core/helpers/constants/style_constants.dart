@@ -45,6 +45,7 @@ final behaviorDescriptionTextColor = Color(0xFF606A7B);
 final supportHeadersTextColor = Color(0xFF333942);
 final selectedButtonTextColor = Color(0xFFFFFFFF);
 final deselectedButtonTextColor = Color(0xFF6C4BB6);
+final monthSelectorColor = Color(0xFF4A515E);
 
 // ------ SIZES
 // UI
@@ -55,6 +56,7 @@ final supportFontSize = 12.0;
 final behaviorDescriptionFontSize = 14.0;
 final supportHeadersSize = 20.0;
 final supportHeaders2Size = 16.0;
+final monthSelectorSize = 20.0;
 
 // MENU
 final sliderMenuFontSize = 12.0;
@@ -77,6 +79,7 @@ final supportButtonsFontSize = 12.0;
 final dirtyInputFontWeight = FontWeight.w500;
 final moneyBalanceFontWeight = FontWeight.bold;
 final supportHeadersFontWeight = FontWeight.bold;
+final modalFontWeight = FontWeight.normal;
 
 // COMPONENTS RELATED
 final formFieldsStyle = BoxDecoration(

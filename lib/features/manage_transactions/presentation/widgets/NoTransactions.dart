@@ -9,11 +9,14 @@ Widget noTransactions()
         padding: EdgeInsets.only(top: 75.0, bottom: 30),
         child: InkWell(
           child: Container(
-            width: 150,
-            height: 150,
+            width: 173,
+            height: 192,
             decoration: BoxDecoration(
-              color: Color(0xFFD8D8D8),
-              borderRadius: BorderRadius.circular(100.0),
+                image: DecorationImage(
+                    image: AssetImage('assets/images/illustrations/platy-notransactions.png'),
+                    alignment: Alignment.bottomCenter
+                ),
+                color: Colors.white
             ),
           ),
         ),

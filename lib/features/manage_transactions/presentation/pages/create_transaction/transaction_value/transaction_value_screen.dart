@@ -277,6 +277,8 @@ class _CreateTransactionValueState extends State<CreateTransactionValue> {
     quotasValidation(quotas);
 
     if (isNumberValid && isQuotasValid) {
+      if(brNumberRegex.hasMatch(value)) value = value.split(',').join('.');
+
       if(widget.transaction.quotas != 'unique') {
         widget.callback(double.parse(value), resolveQuotas(quotas));
       } else {

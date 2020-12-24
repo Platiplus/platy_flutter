@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
+import 'package:platy/core/helpers/constants/utilities_constants.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionModel.dart';
 
 import 'package:platy/core/widgets/Widgets.dart';
@@ -76,7 +77,7 @@ class _TransactionListItemState extends State<TransactionListItem>{
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 8.0),
                                   child: Text(
-                                    "R\$ " + widget.transaction.value.toString(),
+                                    currencyFormatter.format(widget.transaction.value),
                                     style: TextStyle(
                                         fontSize: Theme.moneyValueFontSize,
                                         fontFamily: Theme.primaryFontFamily,

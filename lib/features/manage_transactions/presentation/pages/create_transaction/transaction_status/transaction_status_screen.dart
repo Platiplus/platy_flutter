@@ -175,6 +175,7 @@ class _CreateTransactionStatusState extends State<CreateTransactionStatus> {
       });
     }
   }
+
   makeDescriptionText(int type) {
     if (type == TransactionType.GASTO) {
       return 'Essa conta já foi paga?';

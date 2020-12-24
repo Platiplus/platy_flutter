@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:platy/features/manage_transactions/data/models/TransactionCreateModel.dart';
 import 'package:platy/features/manage_transactions/domain/usecases/CreateTransactions.dart';
-import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_confirmation/trasaction_confirmation_screen.dart';
+import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_confirmation/transaction_confirmation_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_details/transaction_details_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_quotas/transaction_quotas_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/create_transaction/transaction_status/transaction_status_screen.dart';
@@ -136,7 +136,6 @@ class _CreateTransactionState extends State<CreateTransaction> {
             }
     );
   }
-
   void showSuccessDialog(BuildContext context) {
     Dialog dialog = CustomDialog(
         assetPath: 'assets/images/animations/transaction_ok.json',
@@ -153,10 +152,10 @@ class _CreateTransactionState extends State<CreateTransaction> {
 
   void showErrorDialog(BuildContext context) {
     Dialog dialog = CustomDialog(
-        assetPath: 'assets/images/animations/transaction_ok.json',
-        width: 106,
+        assetPath: 'assets/images/animations/transaction_error.json',
+        width: 76,
         height: 76,
-        message: 'Transação criada\ncom sucesso',
+        message: 'Algum erro ocorreu ao criar a transação',
         behaviour: () {
           Navigator.of(context, rootNavigator: true).pop();
           Navigator.of(context).pop();
@@ -164,42 +163,4 @@ class _CreateTransactionState extends State<CreateTransaction> {
 
     showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);
   }
-
-  void showProgressIndicator(BuildContext context) {
-    Dialog dialog =  Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0),
-    ),
-    child: Container(height: 200.0,
-      width: 280.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                //INDICATOR
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-    );
-
-
-    CustomDialog(
-        assetPath: 'assets/images/animations/transaction_ok.json',
-        width: 106,
-        height: 76,
-        message: 'Transação criada\ncom sucesso',
-        behaviour: () {
-          Navigator.of(context, rootNavigator: true).pop();
-        });
-
-    showDialog(barrierDismissible: false, context: context, builder: (BuildContext context) => dialog);
-  }
-
 }

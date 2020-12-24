@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/control/control_screen.dart';
 import 'package:platy/features/manage_transactions/presentation/pages/profile/profile_screen.dart';
-import 'package:platy/features/manage_transactions/presentation/pages/wallet/wallet_screen.dart';
 import 'package:platy/core/widgets/Widgets.dart';
 import 'package:platy/core/helpers/constants/style_constants.dart' as Theme;
 
@@ -19,7 +18,6 @@ class HomeState extends State<Home> {
 
   final List<Widget> _children = [
     Control(),
-    Wallet(),
     Profile()
   ];
 
@@ -40,10 +38,6 @@ class HomeState extends State<Home> {
           BottomNavigationBarItem(
             icon: new Icon(CSIcons.fast_money),
             title: new Text('Controle'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(CSIcons.economy),
-            title: new Text('Carteira'),
           ),
           BottomNavigationBarItem(
               icon: Icon(CSIcons.user),

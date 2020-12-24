@@ -16,7 +16,7 @@ class UserDataSource implements IUserDataSource {
 
   @override
   Future<Either<SignInError, TokensModel>> login(UserLoginDTO credentials) async {
-    var uri = new Uri(scheme: scheme, host: authBaseUrl, path: authenticationUrl);
+    var uri = new Uri(scheme: scheme, host: authBaseUrl, pathSegments: [authenticationUrl, signIn]);
     var response = await client.post(uri, body: credentials.toJson());
 
     var responseMap = json.decode(response.body);
