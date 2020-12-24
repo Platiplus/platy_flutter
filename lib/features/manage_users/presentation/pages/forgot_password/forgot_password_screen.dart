@@ -62,7 +62,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 30.0),
                         child: Text(
-                          "Digite seu e-mail e vamos enviar \ninstruções para que você a redefina",
+                          // "Digite seu e-mail e vamos enviar \ninstruções para que você a redefina",
+                          "No momento, a redefinição de senha\nautomática está desativada.\n\nEnvie um e-mail para contato@platiplus.dev\ne verificaremos assim que possível.",
                           style: TextStyle(
                               fontFamily: Theme.primaryFontFamily,
                               fontSize: Theme.behaviorDescriptionFontSize,
@@ -71,49 +72,49 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      decoration: Theme.formFieldsStyle,
-                      height: 60.0,
-                      child: customInput(
-                        inputType: TextInputType.emailAddress,
-                        hintText: 'E-mail',
-                        prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
-                        controller: forgotPasswordController,
-                      ),// CustomInput
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 60.0,
-                    child: InkWell(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment(0.75, 0.0),
-                              colors: [
-                                Theme.gradientBegin,
-                                Theme.gradientEnd
-                              ]
-                          ),
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(50.0),
-                            onTap: () => {},
-                            child: Center(
-                                child: customButton('Enviar')
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(bottom: 20.0),
+                  //   child: Container(
+                  //     alignment: Alignment.centerLeft,
+                  //     decoration: Theme.formFieldsStyle,
+                  //     height: 60.0,
+                  //     child: customInput(
+                  //       inputType: TextInputType.emailAddress,
+                  //       hintText: 'E-mail',
+                  //       prefixIcon: Icon(CSIcons.mail, color: Theme.inputIconColor, size: Theme.inputIconSize),
+                  //       controller: forgotPasswordController,
+                  //     ),// CustomInput
+                  //   ),
+                  // ),
+                  // Container(
+                  //   alignment: Alignment.center,
+                  //   height: 60.0,
+                  //   child: InkWell(
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         gradient: LinearGradient(
+                  //             begin: Alignment.topLeft,
+                  //             end: Alignment(0.75, 0.0),
+                  //             colors: [
+                  //               Theme.gradientBegin,
+                  //               Theme.gradientEnd
+                  //             ]
+                  //         ),
+                  //         borderRadius: BorderRadius.circular(50.0),
+                  //       ),
+                  //       child: Material(
+                  //         color: Colors.transparent,
+                  //         child: InkWell(
+                  //           borderRadius: BorderRadius.circular(50.0),
+                  //           onTap: () => {},
+                  //           child: Center(
+                  //               child: customButton('Enviar')
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ]),
               ),
             ],

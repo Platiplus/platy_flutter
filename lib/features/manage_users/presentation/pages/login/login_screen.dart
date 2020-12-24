@@ -368,7 +368,7 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.only(top: 20.0),
             child: FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('home');
+                  Navigator.of(context).pushNamed('forgot');
                 },
                 child: Text(
                   "Esqueceu a senha?",
