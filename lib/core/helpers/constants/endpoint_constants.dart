@@ -17,5 +17,7 @@ final createTransactionsUrl = 'transactions';
 final updateTransactionsUrl = 'transactions';
 final deleteTransactionsUrl = 'transactions';
 final createManyTransactionsUrl = 'transactions/many';
+final createAccountUrl = 'accounts';
+
 final many = 'many';
 final all = 'all';
